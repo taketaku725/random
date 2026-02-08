@@ -28,8 +28,8 @@ function shuffleDeck() {
   shuffle(deck);
 
   const resultCard = document.getElementById("result-card");
+  resultCard.classList.add("hidden");
   resultCard.classList.remove("flip", "joker-glow");
-  resultCard.querySelector(".card-face.front img").src = "img/ura.png";
 
   document.getElementById("log-list").innerHTML = "";
   updateCount();
@@ -47,19 +47,27 @@ function drawCard() {
     const card = deck.pop();
 
     const resultCard = document.getElementById("result-card");
-    resultCard.classList.remove("joker-glow"); // まず消す
+    const frontImg = resultCard.querySelector(".card-face.front img");
 
+    // 結果カードを表示
+    resultCard.classList.remove("hidden");
+    resultCard.classList.remove("flip", "joker-glow");
+
+    // 表画像セット
     frontImg.src = card.image;
-    resultCard.classList.add("flip");
 
+    // めくる
+    requestAnimationFrame(() => {
+      resultCard.classList.add("flip");
+    });
+
+    // ジョーカー演出（結果のみ）
     if (card.image.includes("joker")) {
-    resultCard.classList.add("joker-glow");
+      resultCard.classList.add("joker-glow");
     }
 
+    // 飛んでるカード消す
     document.getElementById("flying-card").style.opacity = "0";
-
-    frontImg.src = card.image;
-    resultCard.classList.add("flip");
 
     addLog(card.image);
     updateCount();
@@ -113,4 +121,5 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
 
