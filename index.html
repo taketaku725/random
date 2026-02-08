@@ -7,9 +7,9 @@
 </head>
 <body>
 
-<h1>トランプを1枚引く β001</h1>
+<h1>トランプを1枚引く β002</h1>
 
-<div class="controls">
+<div class="controls fixed">
   <button onclick="drawCard()">引く</button>
   <button onclick="shuffleDeck()">シャッフル</button>
 </div>
@@ -35,7 +35,7 @@
 
   <!-- 結果 -->
   <div id="result">
-    <div id="result-card" class="card">
+    <div id="result-card" class="card hidden">
       <div class="card-inner">
         <div class="card-face back">
           <img src="img/ura.png">
@@ -70,4 +70,5 @@
 <script src="script.js"></script>
 </body>
 </html>
+
 
