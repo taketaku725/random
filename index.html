@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>トランプ</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>トランプを1枚引く</h1>
+
+<div class="controls">
+  <button onclick="drawCard()">引く</button>
+  <button onclick="shuffleDeck()">シャッフル</button>
+</div>
+
+<div id="card-lane">
+
+  <!-- 山札 -->
+  <div id="deck-area">
+    <div id="deck-card" class="card">
+      <div class="card-inner">
+        <div class="card-face back">
+          <img src="img/ura.png">
+        </div>
+        <div class="card-face front">
+          <img src="img/ura.png">
+        </div>
+      </div>
+    </div>
+    <div class="count">
+      山札 残り <span id="count"></span> 枚
+    </div>
+  </div>
+
+  <!-- 結果 -->
+  <div id="result">
+    <div id="result-card" class="card">
+      <div class="card-inner">
+        <div class="card-face back">
+          <img src="img/ura.png">
+        </div>
+        <div class="card-face front">
+          <img src="img/ura.png">
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- 落下アニメーション用 -->
+<div id="flying-card" class="card">
+  <div class="card-inner">
+    <div class="card-face back">
+      <img src="img/ura.png">
+    </div>
+    <div class="card-face front">
+      <img src="img/ura.png">
+    </div>
+  </div>
+</div>
+
+<!-- ログ -->
+<div id="log">
+  <h3>結果ログ</h3>
+  <ul id="log-list"></ul>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

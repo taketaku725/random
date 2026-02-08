@@ -1,0 +1,94 @@
+body {
+  font-family: sans-serif;
+  text-align: center;
+  margin-top: 40px;
+}
+
+.controls button {
+  margin: 10px 6px;
+}
+
+#card-lane {
+  position: relative;
+  width: 120px;
+  margin: 30px auto;
+}
+
+/* ===== カード ===== */
+
+.card {
+  width: 120px;
+  height: 180px;
+  position: relative;
+  perspective: 800px;
+}
+
+.card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.4s ease;
+}
+
+.card.flip .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+
+.card-face img {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+}
+
+.card-face.front {
+  transform: rotateY(180deg);
+}
+
+.card.small {
+  width: 60px;
+  height: 90px;
+}
+
+/* ===== 山札 ===== */
+
+#deck-card {
+  margin-bottom: 60px;
+}
+
+/* ===== 落下カード ===== */
+
+#flying-card {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: none;
+  opacity: 0;
+  transition: transform 0.4s ease, opacity 0.2s ease;
+}
+
+/* ===== ログ ===== */
+
+#log {
+  margin-top: 30px;
+}
+
+#log-list {
+  display: flex;
+  gap: 8px;
+  padding: 10px;
+  list-style: none;
+  overflow-x: auto;
+}
+
+#log-list li {
+  flex: 0 0 auto;
+}
