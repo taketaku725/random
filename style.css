@@ -11,7 +11,7 @@ button {
 
 #card-lane {
   position: relative;
-  width: 120px;
+  width: 140px;
   margin: 30px auto;
 }
 
@@ -242,3 +242,4 @@ button {
       0 0 16px orange;
   }
 }
+
