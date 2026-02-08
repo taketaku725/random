@@ -98,7 +98,7 @@ function animateDraw() {
 
 function addLog(src) {
   const li = document.createElement("li");
-  li.className = "card small";
+  li.className = "log-card";
 
   const img = document.createElement("img");
   img.src = src;
@@ -121,5 +121,6 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
 
 
