@@ -63,6 +63,13 @@ button {
   height: 72px;
 }
 
+.log-card img {
+  width: 52px;
+  height: 78px;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+}
+
 /* ===== 山札 ===== */
 
 .hidden {
@@ -91,16 +98,19 @@ button {
   margin-top: 30px;
 }
 
+/* ===== ログ用カードの見え方 ===== */
 #log-list {
   display: flex;
-  gap: 8px;
-  padding: 10px;
+  gap: 12px;              /* ← 少し広げる */
+  padding: 12px;
   list-style: none;
   overflow-x: auto;
+  align-items: center;    /* ← 高さズレ防止 */
 }
 
 #log-list li {
   flex: 0 0 auto;
+  display: block;         /* ← 重なり防止 */
 }
 
 /* ===== スマホ対応 ===== */
@@ -200,8 +210,35 @@ button {
   cursor: default;
 }
 
+/* ===== 結果カード専用：ジョーカー発光 ===== */
+.joker-glow {
+  animation: jokerGlow 2s linear infinite;
+}
 
-
-
-
-
+@keyframes jokerGlow {
+  0% {
+    box-shadow:
+      0 0 8px red,
+      0 0 16px orange;
+  }
+  25% {
+    box-shadow:
+      0 0 8px yellow,
+      0 0 16px green;
+  }
+  50% {
+    box-shadow:
+      0 0 8px cyan,
+      0 0 16px blue;
+  }
+  75% {
+    box-shadow:
+      0 0 8px violet,
+      0 0 16px magenta;
+  }
+  100% {
+    box-shadow:
+      0 0 8px red,
+      0 0 16px orange;
+  }
+}
