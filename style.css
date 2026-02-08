@@ -5,6 +5,10 @@ body {
   padding-bottom: 120px; /* ← 下固定コントロール分 */
 }
 
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
 #card-lane {
   position: relative;
   width: 120px;
@@ -138,25 +142,26 @@ body {
   left: 0;
   right: 0;
   padding: 12px 16px calc(env(safe-area-inset-bottom) + 12px);
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(8px);
   border-top: 1px solid rgba(0,0,0,0.1);
-  display: flex;
-  justify-content: center;
-  gap: 14px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
   z-index: 100;
   box-shadow: 0 -4px 12px rgba(0,0,0,0.15);
 }
 
 /* ===== ボタン共通 ===== */
 .controls.fixed button {
+  -webkit-appearance: none;
   appearance: none;
   border: none;
-  padding: 14px 20px;
-  font-size: 16px;
-  border-radius: 14px;
-  min-width: 120px;
-  font-weight: 600;
+  padding: 18px 0;
+  font-size: 18px;
+  font-weight: 700;
+  border-radius: 16px;
+  width: 100%;
   cursor: pointer;
   transition:
     transform 0.1s ease,
@@ -164,24 +169,24 @@ body {
     background 0.2s ease;
 }
 
-/* 引く：主役ボタン */
+/* 引く：主役 */
 .controls.fixed button:first-child {
   background: linear-gradient(135deg, #222, #444);
   color: #fff;
-  box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.3);
 }
 
 /* シャッフル：サブ */
 .controls.fixed button:last-child {
-  background: #f2f2f2;
+  background: #f1f1f1;
   color: #333;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.18);
 }
 
 /* 押したとき */
 .controls.fixed button:active {
-  transform: translateY(2px);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  transform: scale(0.97);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
 }
 
 /* 無効時（山札0など将来用） */
@@ -189,6 +194,7 @@ body {
   opacity: 0.5;
   cursor: default;
 }
+
 
 
 
