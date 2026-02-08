@@ -92,3 +92,43 @@ body {
 #log-list li {
   flex: 0 0 auto;
 }
+
+/* ===== スマホ対応 ===== */
+@media (max-width: 600px) {
+
+  body {
+    margin-top: 20px;
+  }
+
+  h1 {
+    font-size: 20px;
+  }
+
+  .controls button {
+    padding: 10px 14px;
+    font-size: 16px;
+  }
+
+  #card-lane {
+    width: 100px;
+    margin: 20px auto;
+  }
+
+  /* メインカードを少し小さく */
+  .card {
+    width: 100px;
+    height: 150px;
+  }
+
+  /* ログカードはさらに小さく */
+  .card.small {
+    width: 50px;
+    height: 75px;
+  }
+
+  /* ログは指でスクロールしやすく */
+  #log-list {
+    gap: 6px;
+    padding: 8px;
+  }
+}
