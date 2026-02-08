@@ -59,6 +59,10 @@ body {
 
 /* ===== 山札 ===== */
 
+.hidden {
+  display: none;
+}
+
 #deck-card {
   margin-bottom: 60px;
 }
@@ -109,21 +113,13 @@ body {
     font-size: 16px;
   }
 
-  #card-lane {
-    width: 100px;
-    margin: 20px auto;
-  }
-
-  /* メインカードを少し小さく */
-  .card {
-    width: 100px;
-    height: 150px;
-  }
-
-  /* ログカードはさらに小さく */
   .card.small {
-    width: 50px;
-    height: 75px;
+    width: 60px;
+    height: 90px;
+  }
+
+  #card-lane {
+    width: 140px;
   }
 
   /* ログは指でスクロールしやすく */
@@ -132,3 +128,18 @@ body {
     padding: 8px;
   }
 }
+
+.controls.fixed {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  background: #fff;
+  border-top: 1px solid #ccc;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  z-index: 100;
+}
+
