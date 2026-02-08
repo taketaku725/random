@@ -28,7 +28,7 @@ function shuffleDeck() {
   shuffle(deck);
 
   const resultCard = document.getElementById("result-card");
-  resultCard.classList.remove("flip");
+  resultCard.classList.remove("flip", "joker-glow");
   resultCard.querySelector(".card-face.front img").src = "img/ura.png";
 
   document.getElementById("log-list").innerHTML = "";
@@ -47,7 +47,14 @@ function drawCard() {
     const card = deck.pop();
 
     const resultCard = document.getElementById("result-card");
-    const frontImg = resultCard.querySelector(".card-face.front img");
+    resultCard.classList.remove("joker-glow"); // まず消す
+
+    frontImg.src = card.image;
+    resultCard.classList.add("flip");
+
+    if (card.image.includes("joker")) {
+    resultCard.classList.add("joker-glow");
+    }
 
     document.getElementById("flying-card").style.opacity = "0";
 
@@ -106,3 +113,4 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
