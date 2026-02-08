@@ -18,8 +18,6 @@ button {
 /* ===== カード ===== */
 
 .card {
-  width: 120px;
-  height: 180px;
   position: relative;
   perspective: 800px;
 }
@@ -53,9 +51,16 @@ button {
   transform: rotateY(180deg);
 }
 
+/* 結果カード・山札（通常） */
+.card.main {
+  width: 140px;
+  height: 210px;
+}
+
+/* ログカード */
 .card.small {
-  width: 60px;
-  height: 90px;
+  width: 48px;
+  height: 72px;
 }
 
 /* ===== 山札 ===== */
@@ -114,18 +119,18 @@ button {
     font-size: 16px;
   }
   
-  .card {
-    width: 160px;
-    height: 240px;
+  .card.main {
+    width: 180px;
+    height: 270px;
   }
 
   .card.small {
-    width: 60px;
-    height: 90px;
+    width: 52px;
+    height: 78px;
   }
 
   #card-lane {
-    width: 160px;
+    width: 180px;
   }
 
   /* ログは指でスクロールしやすく */
@@ -194,6 +199,7 @@ button {
   opacity: 0.5;
   cursor: default;
 }
+
 
 
 
