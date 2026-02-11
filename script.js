@@ -21,33 +21,29 @@ let drawnCount = 0;
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  // タブ切替
+  // タブイベント登録
   document.querySelectorAll(".tab").forEach(btn => {
     btn.addEventListener("click", () => {
       showScreen(btn.dataset.target, btn);
     });
   });
 
-  // ボタン
   document.getElementById("draw-btn").addEventListener("click", drawCard);
   document.getElementById("shuffle-btn").addEventListener("click", shuffleDeck);
   document.getElementById("roll6-btn").addEventListener("click", rollDice6);
   document.getElementById("roll20-btn").addEventListener("click", rollDice20);
-
   document.getElementById("dice-count").addEventListener("change", initDice6);
 
   shuffleDeck();
   initDice6();
   initDice20();
-  // タブ復元
-  const savedTab = localStorage.getItem("lastTab");
 
-  if (savedTab) {
-    const btn = document.querySelector(`.tab[data-target="${savedTab}"]`);
-    if (btn) {
-      showScreen(savedTab, btn);
-    }
-  }
+  // ===== タブ復元（改良版） =====
+
+  const savedTab = localStorage.getItem("lastTab") || "card";
+
+  const btn = document.querySelector(`.tab[data-target="${savedTab}"]`);
+  showScreen(savedTab, btn);
 });
 
 function showScreen(id, btn) {
@@ -343,5 +339,6 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
 
 
