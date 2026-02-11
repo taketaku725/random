@@ -143,7 +143,7 @@ function initDice20() {
   const ambient = new THREE.AmbientLight(0xffffff, 0.6);
   scene.add(ambient);
 
-  const loader = new THREE.GLTFLoader();
+  const loader = new GLTFLoader();
   loader.load("assets/d20.glb", (gltf) => {
     d20 = gltf.scene;
     scene.add(d20);
@@ -305,4 +305,5 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
 
