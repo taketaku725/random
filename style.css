@@ -343,8 +343,16 @@ select:focus {
   box-shadow: 0 0 0 3px rgba(255,107,107,0.3);
 }
 
-#dice20-canvas {
-  width: 100%;
-  height: 300px;
-  margin-top: 30px;
+#dice20 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
+
+#dice20-canvas {
+  width: min(90vw, 320px);
+  height: min(90vw, 320px);
+  margin: 30px auto 0;
+}
+
+
