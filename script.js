@@ -118,7 +118,7 @@ function rollDice6() {
   });
 }
 
-let scene, camera, renderer, d20, mixer;
+let scene, camera, renderer, d20;
 
 function initDice20() {
 
@@ -153,12 +153,14 @@ function initDice20() {
 
 function animate() {
   requestAnimationFrame(animate);
-  renderer.render(scene, camera);
 }
+
+let isRolling20 = false;
 
 function rollDice20() {
 
-  if (!d20) return;
+  if (!d20 || isRolling20) return;
+  isRolling20 = true;
 
   const result = Math.floor(Math.random() * 20) + 1;
   document.getElementById("dice20-result").textContent = "";
@@ -196,6 +198,7 @@ function rollDice20() {
       }
     }
   }
+  isRolling20 = false;
 
   requestAnimationFrame(spin);
 }
@@ -305,5 +308,6 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
 
 
