@@ -19,6 +19,7 @@ let drawnCount = 0;
 document.addEventListener("DOMContentLoaded", () => {
   shuffleDeck();
   initDice6();
+  initDice20();
 });
 
 function showScreen(id, btn) {
@@ -31,6 +32,8 @@ function showScreen(id, btn) {
 
 let diceCubes = [];
 
+let diceState = []; // 現在の角度を保持
+
 function initDice6() {
 
   const count = Number(document.getElementById("dice-count").value);
@@ -38,6 +41,7 @@ function initDice6() {
 
   area.innerHTML = "";
   diceCubes = [];
+  diceState = [];
 
   for (let i = 0; i < count; i++) {
 
@@ -56,9 +60,10 @@ function initDice6() {
     }
 
     cube.style.transform = "rotateX(0deg) rotateY(0deg)";
-
     area.appendChild(cube);
+
     diceCubes.push(cube);
+    diceState.push({ x: 0, y: 0 });
   }
 }
 
@@ -75,26 +80,29 @@ function rollDice6() {
     const value = Math.floor(Math.random() * 6) + 1;
     total += value;
 
-    const rot = getRotationForValue(value);
-
     const axes = [
-      { x: 1,  y: 1,  z: 1 },
-      { x: 1,  y: -1, z: 1 },
-      { x: -1, y: 1,  z: 1 },
-      { x: -1, y: -1, z: 1 }
+      { x: 1,   y: 0.7, z: 1.2 },
+      { x: 1,   y: -0.8, z: 1 },
+      { x: -1.1,y: 1,   z: 0.9 },
+      { x: -0.9,y: -1,  z: 1.1 }
     ];
 
     const axis = axes[Math.floor(Math.random() * 4)];
 
     cube.style.transition = "transform 1s linear";
 
-    // 回転量 + 最終角度を一発で指定
+    // 空間で捻るだけ
     cube.style.transform =
-      `rotate3d(${axis.x}, ${axis.y}, ${axis.z}, 1080deg)
-       rotateX(${rot.x}deg)
-       rotateY(${rot.y}deg)`;
+      `rotate3d(${axis.x}, ${axis.y}, ${axis.z}, 1440deg)`;
 
     setTimeout(() => {
+
+      cube.style.transition = "none";
+      cube.style.transform = "rotateX(0deg) rotateY(0deg)";
+
+      // 正面（face1）の画像を差し替える
+      const frontFace = cube.querySelector(".face1 img");
+      frontFace.src = "img/dice" + value + ".png";
 
       finished++;
 
@@ -107,22 +115,88 @@ function rollDice6() {
   });
 }
 
-function getRotationForValue(value) {
+let scene, camera, renderer, d20, mixer;
 
-  switch(value) {
-    case 1: return { x: 0, y: 0 };
-    case 2: return { x: 0, y: -90 };
-    case 3: return { x: -90, y: 0 };
-    case 4: return { x: 90, y: 0 };
-    case 5: return { x: 0, y: 90 };
-    case 6: return { x: 0, y: 180 };
-  }
+function initDice20() {
+
+  const container = document.getElementById("dice20-canvas");
+  if (!container) return;
+
+  const width = container.clientWidth || 300;
+  const height = container.clientHeight || 300;
+
+  scene = new THREE.Scene();
+  camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+  camera.position.set(0, 0, 5);
+
+  renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+  renderer.setSize(width, height);
+  container.appendChild(renderer.domElement);
+
+  const light = new THREE.DirectionalLight(0xffffff, 1);
+  light.position.set(5, 5, 5);
+  scene.add(light);
+
+  const ambient = new THREE.AmbientLight(0xffffff, 0.6);
+  scene.add(ambient);
+
+  const loader = new THREE.GLTFLoader();
+  loader.load("assets/d20.glb", (gltf) => {
+    d20 = gltf.scene;
+    scene.add(d20);
+    animate();
+  });
+}
+
+function animate() {
+  requestAnimationFrame(animate);
+  renderer.render(scene, camera);
 }
 
 function rollDice20() {
+
+  if (!d20) return;
+
   const result = Math.floor(Math.random() * 20) + 1;
-  document.getElementById("dice20-result").textContent = result;
+  document.getElementById("dice20-result").textContent = "";
+
+  const duration = 1500;
+  const start = performance.now();
+
+  const speedX = 0.6 + Math.random();
+  const speedY = 0.6 + Math.random();
+  const speedZ = 0.6 + Math.random();
+
+  function spin(now) {
+
+    const elapsed = now - start;
+    const t = Math.min(elapsed / duration, 1);
+
+    // イージング（減速）
+    const ease = 1 - Math.pow(1 - t, 3);
+
+    d20.rotation.x += speedX * (1 - ease);
+    d20.rotation.y += speedY * (1 - ease);
+    d20.rotation.z += speedZ * (1 - ease);
+
+    renderer.render(scene, camera);
+
+    if (t < 1) {
+      requestAnimationFrame(spin);
+    } else {
+
+      document.getElementById("dice20-result").textContent = result;
+
+      if (result === 20) {
+        d20.scale.set(1.4,1.4,1.4);
+        setTimeout(() => d20.scale.set(1,1,1), 400);
+      }
+    }
+  }
+
+  requestAnimationFrame(spin);
 }
+
 
 function shuffleDeck() {
   deck = [...masterDeck];
