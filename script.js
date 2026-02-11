@@ -17,10 +17,6 @@ masterDeck.push({ image: "img/joker2.png" });
 let deck = [];
 let isDrawing = false;
 
-/* ===== 初期化 ===== */
-
-shuffleDeck();
-
 /* ===== シャッフル ===== */
 
 function shuffleDeck() {
@@ -28,9 +24,9 @@ function shuffleDeck() {
   shuffle(deck);
 
   const deckCard = document.getElementById("deck-card");
-  deckCard.classList.remove("flip", "joker-glow");
+  if (!deckCard) return; // 保険
 
-  // 裏面に戻す
+  deckCard.classList.remove("flip", "joker-glow");
   deckCard.querySelector(".card-face.front img").src = "img/ura.png";
 
   document.getElementById("log-list").innerHTML = "";
@@ -95,3 +91,9 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
+/* ===== 初期化 ===== */
+
+document.addEventListener("DOMContentLoaded", () => {
+  shuffleDeck();
+});
