@@ -1,6 +1,5 @@
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.158.0/+esm';
-import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.158.0/examples/jsm/loaders/GLTFLoader.js';
-
+import * as THREE from 'https://esm.sh/three@0.158.0';
+import { GLTFLoader } from 'https://esm.sh/three@0.158.0/examples/jsm/loaders/GLTFLoader.js';
 
 const suits = ["s", "h", "d", "c"];
 const ranks = ["a","2","3","4","5","6","7","8","9","10","j","q","k"];
@@ -196,11 +195,10 @@ function rollDice20() {
       if (result === 20) {
         d20.scale.set(1.4,1.4,1.4);
         setTimeout(() => d20.scale.set(1,1,1), 400);
-        isRolling20 = false;
       }
+      isRolling20 = false;
     }
   }
-
   requestAnimationFrame(spin);
 }
 
@@ -309,6 +307,7 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
 
 
 
