@@ -69,6 +69,9 @@ document.addEventListener("DOMContentLoaded", () => {
   showScreen(savedTab, btn);
 });
 
+console.log("Initial quaternion:", d20.quaternion);
+
+
 function showScreen(id, btn) {
 
   document.querySelectorAll(".screen")
@@ -286,7 +289,6 @@ function getFrontFaceNumber() {
   return frontNumber;
 }
 
-
 function snapToFrontFace(number) {
 
   const viewDir = new THREE.Vector3(0, 0, 1);
@@ -300,8 +302,12 @@ function snapToFrontFace(number) {
   const correctionQuat = new THREE.Quaternion()
     .setFromUnitVectors(worldNormal, viewDir);
 
-  d20.quaternion.premultiply(correctionQuat);
+  // 新しいクォータニオンを作る
+  const newQuat = correctionQuat.multiply(d20.quaternion.clone());
+
+  d20.quaternion.copy(newQuat);
 }
+
 
 
 function shuffleDeck() {
@@ -408,6 +414,7 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
 
 
 
