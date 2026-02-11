@@ -249,9 +249,19 @@ function rollDice20() {
       requestAnimationFrame(spin);
     } else {
 
-      const result = getFrontFaceNumber();
+      const result = Math.floor(Math.random() * 20) + 1;
 
-      snapToFrontFace(result);
+      const FRONT = new THREE.Vector3(0, 0, -1);
+      const face = faceNormals.find(f => f.number === result);
+
+      const targetQuat = new THREE.Quaternion()
+        .setFromUnitVectors(
+          face.normal.clone().normalize(),
+          FRONT
+        );
+
+      // 補間で吸い付くように止める
+      d20.quaternion.slerp(targetQuat, 1);
 
       document.getElementById("dice20-result").textContent = result;
 
@@ -261,7 +271,6 @@ function rollDice20() {
       }
 
       isRolling20 = false;
-    }  
 
   }
   requestAnimationFrame(spin);
@@ -416,14 +425,4 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
-
-
-
-
-
-
-
-
-
-
 
