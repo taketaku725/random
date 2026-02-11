@@ -1,24 +1,37 @@
+/* ===== 基本 ===== */
+
 body {
-  font-family: sans-serif;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
   text-align: center;
-  margin-top: 40px;
-  padding-bottom: 120px; /* ← 下固定コントロール分 */
+  background: #fafafa;
 }
 
-button {
-  -webkit-tap-highlight-color: transparent;
+h1 {
+  margin: 16px 0 8px;
+  font-size: 20px;
 }
 
-#card-lane {
-  position: relative;
-  width: 140px;
-  margin: 30px auto;
+/* ===== 全体レイアウト ===== */
+
+#app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 140px; /* ボタン分の余白 */
+}
+
+/* ===== 残り枚数 ===== */
+
+#count-area {
+  font-size: 14px;
+  opacity: 0.7;
 }
 
 /* ===== カード ===== */
 
 .card {
-  position: relative;
   perspective: 800px;
 }
 
@@ -36,224 +49,108 @@ button {
 
 .card-face {
   position: absolute;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   backface-visibility: hidden;
-}
-
-.card-face img {
-  width: 100%;
-  height: 100%;
-  border-radius: 8px;
 }
 
 .card-face.front {
   transform: rotateY(180deg);
 }
 
-/* 結果カード・山札（通常） */
-.card.main {
-  width: 140px;
-  height: 210px;
-}
-
-/* ログカード */
-.card.small {
-  width: 48px;
-  height: 72px;
-}
-
-.log-card img {
-  height: 100%;
-  max-height: 72px;
-  width: auto;
-  border-radius: 6px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.25);
-}
-
-/* ===== 山札 ===== */
-
-.hidden {
-  display: none;
-}
-
-#deck-card {
-  margin-bottom: 60px;
-}
-
-/* ===== 落下カード ===== */
-
-#flying-card {
-  position: absolute;
-  left: 50%;
-  top: 0;
-  transform: translateX(-50%) translateY(0);
-  pointer-events: none;
-  opacity: 0;
-  transition: transform 0.4s ease, opacity 0.2s ease;
-}
-
-/* ===== ログ ===== */
-
-#log {
-  margin-top: 30px;
-}
-
-/* ===== ログ用カードの見え方 ===== */
-#log-list {
-  height: 90px;
-  display: flex;
-  gap: 12px;              /* ← 少し広げる */
-  padding:8px 12px;
-  list-style: none;
-  overflow-x: auto;
-  align-items: center;    /* ← 高さズレ防止 */
-}
-
-#log-list li {
-  flex: 0 0 auto;
-  display: block;         /* ← 重なり防止 */
-}
-
-/* ===== スマホ対応 ===== */
-@media (max-width: 600px) {
-
-  body {
-    margin-top: 20px;
-  }
-
-  h1 {
-    font-size: 20px;
-  }
-
-  .controls button {
-    padding: 10px 14px;
-    font-size: 16px;
-  }
-  
-  .card.main {
-    width: 180px;
-    height: 270px;
-  }
-
-  .card.small {
-    width: 52px;
-    height: 78px;
-  }
-
-  #card-lane {
-    width: 180px;
-  }
-
-  /* ログは指でスクロールしやすく */
-  #log-list {
-    gap: 6px;
-    padding: 8px;
-    height: 72px;
-  }
-  
-  .log-card img {
-    max-height: 60px;
-  }
-}
-
-#log-list li.log-card {
-  height: 100%;
-  display: flex;
-  align-items: center;
-}
-
-/* ===== 下固定コントロール ===== */
-.controls.fixed {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 12px 16px calc(env(safe-area-inset-bottom) + 12px);
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(8px);
-  border-top: 1px solid rgba(0,0,0,0.1);
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  z-index: 100;
-  box-shadow: 0 -4px 12px rgba(0,0,0,0.15);
-}
-
-/* ===== ボタン共通 ===== */
-.controls.fixed button {
-  -webkit-appearance: none;
-  appearance: none;
-  border: none;
-  padding: 18px 0;
-  font-size: 18px;
-  font-weight: 700;
-  border-radius: 16px;
+.card-face img {
   width: 100%;
-  cursor: pointer;
-  transition:
-    transform 0.1s ease,
-    box-shadow 0.1s ease,
-    background 0.2s ease;
+  height: 100%;
+  border-radius: 12px;
 }
 
-/* 引く：主役 */
-.controls.fixed button:first-child {
-  background: linear-gradient(135deg, #222, #444);
-  color: #fff;
-  box-shadow: 0 6px 14px rgba(0,0,0,0.3);
+/* ===== 山札（主役） ===== */
+
+.card.main {
+  width: 200px;
+  height: 300px;
 }
 
-/* シャッフル：サブ */
-.controls.fixed button:last-child {
-  background: #f1f1f1;
-  color: #333;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.18);
-}
+/* ===== ジョーカー演出（結果＝山札のみ） ===== */
 
-/* 押したとき */
-.controls.fixed button:active {
-  transform: scale(0.97);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
-}
-
-/* 無効時（山札0など将来用） */
-.controls.fixed button:disabled {
-  opacity: 0.5;
-  cursor: default;
-}
-
-/* ===== 結果カード専用：ジョーカー発光 ===== */
 .joker-glow {
   animation: jokerGlow 2s linear infinite;
 }
 
 @keyframes jokerGlow {
-  0% {
-    box-shadow:
-      0 0 8px red,
-      0 0 16px orange;
-  }
-  25% {
-    box-shadow:
-      0 0 8px yellow,
-      0 0 16px green;
-  }
-  50% {
-    box-shadow:
-      0 0 8px cyan,
-      0 0 16px blue;
-  }
-  75% {
-    box-shadow:
-      0 0 8px violet,
-      0 0 16px magenta;
-  }
-  100% {
-    box-shadow:
-      0 0 8px red,
-      0 0 16px orange;
-  }
+  0%   { box-shadow: 0 0 8px red; }
+  25%  { box-shadow: 0 0 12px orange; }
+  50%  { box-shadow: 0 0 12px cyan; }
+  75%  { box-shadow: 0 0 12px violet; }
+  100% { box-shadow: 0 0 8px red; }
 }
 
+/* ===== ボタン ===== */
 
+#draw-btn,
+#shuffle-btn {
+  width: 90%;
+  max-width: 360px;
+  padding: 18px 0;
+  font-size: 18px;
+  font-weight: 700;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+#draw-btn {
+  background: linear-gradient(135deg, #222, #444);
+  color: #fff;
+}
+
+#shuffle-btn {
+  background: #eee;
+  color: #333;
+}
+
+#draw-btn:active,
+#shuffle-btn:active {
+  transform: scale(0.97);
+}
+
+/* ===== ログ ===== */
+
+#log {
+  width: 100%;
+}
+
+#log-list {
+  height: 72px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  list-style: none;
+  overflow-x: auto;
+}
+
+.log-card img {
+  height: 60px;
+  width: auto;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+}
+
+/* ===== スマホ最適化 ===== */
+
+@media (max-width: 600px) {
+  .card.main {
+    width: 220px;
+    height: 330px;
+  }
+
+  #log-list {
+    height: 64px;
+  }
+
+  .log-card img {
+    height: 52px;
+  }
+}
