@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ランダマイザーβ005</title>
+<title>ランダマイザーβ006</title>
 <link rel="stylesheet" href="style.css">
+
 <script type="importmap">
 {
   "imports": {
@@ -12,82 +13,53 @@
   }
 }
 </script>
-
 </head>
+
 <body>
 
 <div class="tabs">
-  <button class="tab active" onclick="showScreen('card', this)">トランプ</button>
-  <button class="tab" onclick="showScreen('dice6', this)">6面ダイス</button>
-  <button class="tab" onclick="showScreen('dice20', this)">20面ダイス</button>
+  <button class="tab active" data-target="card">トランプ</button>
+  <button class="tab" data-target="dice6">6面ダイス</button>
+  <button class="tab" data-target="dice20">20面ダイス</button>
 </div>
 
-<!-- ===== トランプ ===== -->
 <section id="card" class="screen active">
-
   <div id="count-area">
     山札 残り <span id="count">54</span> 枚
   </div>
 
   <div id="deck-wrapper">
     <div id="deck-card" class="card main">
-
-      <div id="next-card" class="card-layer card">
-        <div class="card-inner">
-          <div class="card-face back">
-            <img src="img/ura.png">
-          </div>
-          <div class="card-face front">
-            <img src="img/ura.png">
-          </div>
-        </div>
-      </div>
-
-      <div id="current-card" class="card-layer card">
-        <div class="card-inner">
-          <div class="card-face back">
-            <img src="img/ura.png">
-          </div>
-          <div class="card-face front">
-            <img src="img/ura.png">
-          </div>
-        </div>
-      </div>
-
+      <div id="next-card" class="card-layer card"></div>
+      <div id="current-card" class="card-layer card"></div>
     </div>
   </div>
 
-  <button id="draw-btn" onclick="drawCard()">引く</button>
-  <button onclick="shuffleDeck()">シャッフル</button>
+  <button id="draw-btn">引く</button>
+  <button id="shuffle-btn">シャッフル</button>
 
   <div id="log">
     <ul id="log-list"></ul>
   </div>
-
 </section>
 
-<!-- ===== 6面ダイス ===== -->
 <section id="dice6" class="screen">
   <h2>6面ダイス</h2>
-
-  <select id="dice-count" onchange="initDice6()">
+  <select id="dice-count">
     <option value="1">1個</option>
     <option value="2">2個</option>
     <option value="3">3個</option>
     <option value="4">4個</option>
     <option value="5">5個</option>
   </select>
-
-  <button onclick="rollDice6()">振る</button>
-
+  <button id="roll6-btn">振る</button>
   <div id="dice6-area" class="dice-area"></div>
   <div id="dice6-total" class="dice-total"></div>
 </section>
 
-<!-- ===== 20面ダイス ===== -->
 <section id="dice20" class="screen">
   <h2>20面ダイス</h2>
-  <button onclick="rollDice20()">振る</button>
+  <button id="roll20-btn">振る</button>
   <div id="dice20-canvas"></div>
   <div id="dice20-result" class="big-display"></div>
 </section>
@@ -95,10 +67,3 @@
 <script type="module" src="script.js"></script>
 </body>
 </html>
-
-
-
-
-
-
-
