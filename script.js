@@ -66,7 +66,6 @@ function rollDice6() {
 
   const totalEl = document.getElementById("dice6-total");
 
-  // 回転開始で合計消す
   totalEl.textContent = "";
 
   let total = 0;
@@ -79,21 +78,21 @@ function rollDice6() {
 
     const rot = getRotationForValue(value);
 
-    // 斜め軸4方向（XとYを同じ比率）
-    const directions = [
-      { x: 720,  y: 720  },   // 右前
-      { x: 720,  y: -720 },   // 左前
-      { x: -720, y: 720  },   // 右奥
-      { x: -720, y: -720 }    // 左奥
+    // 斜め軸4方向
+    const axes = [
+      { x: 1,  y: 1,  z: 0 },
+      { x: 1,  y: -1, z: 0 },
+      { x: -1, y: 1,  z: 0 },
+      { x: -1, y: -1, z: 0 }
     ];
 
-    const dir = directions[Math.floor(Math.random() * 4)];
+    const axis = axes[Math.floor(Math.random() * 4)];
 
-    cube.style.transition = "transform 0.8s linear";
+    cube.style.transition = "transform 0.9s linear";
 
-    // 斜め一本回転
+    // 単一軸回転
     cube.style.transform =
-      `rotateX(${dir.x}deg) rotateY(${dir.y}deg)`;
+      `rotate3d(${axis.x}, ${axis.y}, ${axis.z}, 1080deg)`;
 
     setTimeout(() => {
 
@@ -109,12 +108,10 @@ function rollDice6() {
         totalEl.textContent = "合計: " + total;
       }
 
-    }, 800);
+    }, 900);
 
   });
 }
-
-
 
 function getRotationForValue(value) {
 
