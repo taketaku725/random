@@ -1,5 +1,5 @@
-import * as THREE from 'https://esm.sh/three@0.158.0';
-import { GLTFLoader } from 'https://esm.sh/three@0.158.0/examples/jsm/loaders/GLTFLoader.js';
+import * as THREE from "three";
+import { GLTFLoader } from "https://esm.sh/three@0.158.0/examples/jsm/loaders/GLTFLoader.js";
 
 const suits = ["s", "h", "d", "c"];
 const ranks = ["a","2","3","4","5","6","7","8","9","10","j","q","k"];
@@ -307,6 +307,7 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
 
 
 
