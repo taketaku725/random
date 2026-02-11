@@ -15,6 +15,7 @@ h1 {
 /* ===== 全体レイアウト ===== */
 
 #app {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -141,16 +142,33 @@ h1 {
 /* ===== スマホ最適化 ===== */
 
 @media (max-width: 600px) {
+
+  /* ===== メインカード（山札） ===== */
   .card.main {
-    width: 220px;
-    height: 330px;
+    width: 92vw;          /* 画面ほぼいっぱい */
+    max-width: 360px;     /* タブレット暴走防止 */
+    aspect-ratio: 2 / 3; /* トランプ比率 */
+    height: auto;         /* ← 重要 */
+  }
+
+  /* card-inner も追従 */
+  .card-inner {
+    height: 100%;
+  }
+
+  /* ===== ログ ===== */
+  #log {
+    width: 100%;
   }
 
   #log-list {
-    height: 64px;
+    width: 100%;
   }
 
+  /* ログカードは控えめ */
   .log-card img {
-    height: 52px;
+    height: 56px;
   }
 }
+
+
