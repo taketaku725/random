@@ -41,6 +41,12 @@ masterDeck.push({ image: "img/joker2.png" });
 let deck = [];
 let isDrawing = false;
 let drawnCount = 0;
+let diceCubes = [];
+let diceState = []; // 現在の角度を保持
+let scene, camera, renderer, d20;
+let isRolling20 = false;
+
+
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -86,9 +92,6 @@ function showScreen(id, btn) {
   localStorage.setItem("lastTab", id);
 }
 
-let diceCubes = [];
-
-let diceState = []; // 現在の角度を保持
 
 function initDice6() {
 
@@ -171,7 +174,6 @@ function rollDice6() {
   });
 }
 
-let scene, camera, renderer, d20;
 
 function initDice20() {
 
@@ -216,7 +218,6 @@ function animate() {
   requestAnimationFrame(animate);
 }
 
-let isRolling20 = false;
 
 function rollDice20() {
 
@@ -417,6 +418,7 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
 
 
 
