@@ -1,40 +1,97 @@
-/* ===== 基本 ===== */
+/* =========================
+   全体レイアウト
+========================= */
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+  font-family: sans-serif;
+  background: #111;
+  color: white;
   text-align: center;
-  background: #fafafa;
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  background: #222;
+}
+
+.tab {
+  flex: 1;
+  padding: 14px;
+  border: none;
+  background: #222;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.tab.active {
+  background: #444;
+}
+
+.screen {
+  display: none;
+  padding: 30px 20px;
+  min-height: calc(100vh - 50px);
+}
+
+.screen.active {
+  display: block;
+}
+
+.big-display {
+  font-size: 80px;
+  margin-top: 30px;
+}
+
+#app {
+  padding: 20px 16px 40px;
+  max-width: 480px;
+  margin: 0 auto;
 }
 
 h1 {
-  margin: 16px 0 8px;
-  font-size: 20px;
+  margin: 16px 0 24px;
 }
 
-/* ===== 全体レイアウト ===== */
-
-#app {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  padding-bottom: 140px; /* ボタン分の余白 */
-}
-
-/* ===== 残り枚数 ===== */
+/* =========================
+   残り枚数
+========================= */
 
 #count-area {
-  font-size: 14px;
-  opacity: 0.7;
+  font-size: 18px;
+  margin-bottom: 20px;
 }
 
-/* ===== カード ===== */
+/* =========================
+   山札エリア
+========================= */
+
+#deck-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
 
 .card {
-  perspective: 800px;
+  position: relative;
+  perspective: 1000px;
 }
+
+.card.main {
+  width: 260px;
+  height: 390px;
+}
+
+.card-layer {
+  position: absolute;
+  inset: 0;
+}
+
+/* =========================
+   カード内部構造
+========================= */
 
 .card-inner {
   width: 100%;
@@ -50,125 +107,223 @@ h1 {
 
 .card-face {
   position: absolute;
-  inset: 0;
+  width: 100%;
+  height: 100%;
   backface-visibility: hidden;
+}
+
+.card-face img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: 12px;
 }
 
 .card-face.front {
   transform: rotateY(180deg);
 }
 
-.card-face img {
-  width: 100%;
-  height: 100%;
-  border-radius: 12px;
+/* =========================
+   飛ばすアニメーション
+========================= */
+
+.card.fly-up {
+  animation: flyUp 0.6s ease forwards;
 }
 
-/* ===== 山札（主役） ===== */
-
-.card.main {
-  width: 200px;
-  height: 300px;
+@keyframes flyUp {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-120vh); }
 }
 
-/* ===== ジョーカー演出（結果＝山札のみ） ===== */
+/* =========================
+   ジョーカー演出（シンプル虹発光）
+========================= */
 
-.joker-glow {
-  animation: jokerGlow 2s linear infinite;
-}
-
-@keyframes jokerGlow {
-  0%   { box-shadow: 0 0 8px red; }
-  25%  { box-shadow: 0 0 12px orange; }
-  50%  { box-shadow: 0 0 12px cyan; }
-  75%  { box-shadow: 0 0 12px violet; }
-  100% { box-shadow: 0 0 8px red; }
-}
-
-/* ===== ボタン ===== */
-
-#draw-btn,
-#shuffle-btn {
-  width: 90%;
-  max-width: 360px;
-  padding: 18px 0;
-  font-size: 18px;
-  font-weight: 700;
+.card.joker-glow::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
   border-radius: 16px;
+  background: linear-gradient(
+    45deg,
+    red,
+    orange,
+    yellow,
+    green,
+    cyan,
+    blue,
+    violet
+  );
+  z-index: -1;
+  animation: rainbowPulse 1.5s linear infinite;
+}
+
+@keyframes rainbowPulse {
+  0%   { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+
+/* =========================
+   ボタン
+========================= */
+
+/* =========================
+   ボタン（視認性強化版）
+========================= */
+
+button {
+  display: block;
+  width: 100%;
+  max-width: 280px;
+  margin: 14px auto;
+  padding: 16px 0;
+
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+
   border: none;
+  border-radius: 14px;
+
+  background: linear-gradient(135deg, #ff6b6b, #ff3d3d);
+  color: white;
+
+  box-shadow:
+    0 6px 18px rgba(255, 61, 61, 0.4);
+
   cursor: pointer;
-  -webkit-appearance: none;
-  appearance: none;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    filter 0.2s ease;
 }
 
-#draw-btn {
-  background: linear-gradient(135deg, #222, #444);
-  color: #fff;
+button:hover {
+  filter: brightness(1.1);
 }
 
-#shuffle-btn {
-  background: #eee;
-  color: #333;
+button:active {
+  transform: scale(0.96);
+  box-shadow:
+    0 3px 10px rgba(255, 61, 61, 0.35);
 }
 
-#draw-btn:active,
-#shuffle-btn:active {
-  transform: scale(0.97);
+button:disabled {
+  background: #555;
+  box-shadow: none;
+  opacity: 0.6;
+  cursor: default;
 }
 
-/* ===== ログ ===== */
+/* =========================
+   ログ
+========================= */
 
 #log {
-  width: 100%;
-}
-
-#log-list {
-  height: 72px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 8px 12px;
-  list-style: none;
+  margin-top: 24px;
   overflow-x: auto;
 }
 
-.log-card img {
-  height: 60px;
-  width: auto;
+#log-list {
+  display: flex;
+  gap: 8px;
+  padding: 0;
+  list-style: none;
+}
+
+#log-list li {
+  flex: 0 0 auto;
+  width: 60px;
+  height: 90px;
+}
+
+#log-list img {
+  width: 100%;
+  height: 100%;
   border-radius: 6px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+  display: block;
 }
 
-/* ===== スマホ最適化 ===== */
+/* =========================
+   6面ダイス
+========================= */
 
-@media (max-width: 600px) {
-
-  /* ===== メインカード（山札） ===== */
-  .card.main {
-    width: 92vw;          /* 画面ほぼいっぱい */
-    max-width: 360px;     /* タブレット暴走防止 */
-    aspect-ratio: 2 / 3; /* トランプ比率 */
-    height: auto;         /* ← 重要 */
-  }
-
-  /* card-inner も追従 */
-  .card-inner {
-    height: 100%;
-  }
-
-  /* ===== ログ ===== */
-  #log {
-    width: 100%;
-  }
-
-  #log-list {
-    width: 100%;
-  }
-
-  /* ログカードは控えめ */
-  .log-card img {
-    height: 56px;
-  }
+.dice-area {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 30px;
+  flex-wrap: wrap;
 }
 
+.dice {
+  width: 90px;
+  height: 90px;
+  transition: transform 0.6s ease;
+  transform-style: preserve-3d;
+}
 
+.dice img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.dice.roll {
+  transform: rotateX(720deg) rotateY(720deg) scale(1.1);
+}
+
+.dice-total {
+  font-size: 32px;
+  margin-top: 24px;
+  font-weight: bold;
+}
+
+/* =========================
+   6面ダイス（3D Cube）
+========================= */
+
+.dice-area {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 40px;
+  perspective: 1200px;
+  flex-wrap: wrap;
+}
+
+.dice-cube {
+  width: 90px;
+  height: 90px;
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+/* 面 */
+.dice-face {
+  position: absolute;
+  width: 90px;
+  height: 90px;
+  background: white; /* ← 透過対策 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backface-visibility: hidden;
+}
+
+.dice-face img {
+  width: 90%;
+  height: 90%;
+  object-fit: contain;
+}
+
+/* 配置（現実準拠） */
+.face1 { transform: rotateY(0deg) translateZ(45px); }
+.face6 { transform: rotateY(180deg) translateZ(45px); }
+
+.face2 { transform: rotateY(90deg) translateZ(45px); }
+.face5 { transform: rotateY(-90deg) translateZ(45px); }
+
+.face3 { transform: rotateX(90deg) translateZ(45px); }
+.face4 { transform: rotateX(-90deg) translateZ(45px); }
