@@ -244,8 +244,10 @@ function rollDice20() {
       requestAnimationFrame(spin);
     } else {
 
-      const result = getTopFaceNumber();
-      snapToFace(result);
+      const result = getFrontFaceNumber();
+
+      snapToFrontFace(result);
+
       document.getElementById("dice20-result").textContent = result;
 
       if (result === 20) {
@@ -260,12 +262,12 @@ function rollDice20() {
   requestAnimationFrame(spin);
 }
 
-function getTopFaceNumber() {
+function getFrontFaceNumber() {
 
-  const up = new THREE.Vector3(0, 1, 0);
+  const viewDir = new THREE.Vector3(0, 0, 1);
 
   let maxDot = -Infinity;
-  let topNumber = null;
+  let frontNumber = null;
 
   faceNormals.forEach(face => {
 
@@ -273,30 +275,30 @@ function getTopFaceNumber() {
       .applyQuaternion(d20.quaternion)
       .normalize();
 
-    const dot = worldNormal.dot(up);
+    const dot = worldNormal.dot(viewDir);
 
     if (dot > maxDot) {
       maxDot = dot;
-      topNumber = face.number;
+      frontNumber = face.number;
     }
   });
 
-  return topNumber;
+  return frontNumber;
 }
 
-function snapToFace(topNumber) {
 
-  const up = new THREE.Vector3(0, 1, 0);
+function snapToFrontFace(number) {
 
-  const face = faceNormals.find(f => f.number === topNumber);
+  const viewDir = new THREE.Vector3(0, 0, 1);
+
+  const face = faceNormals.find(f => f.number === number);
 
   const worldNormal = face.normal.clone()
     .applyQuaternion(d20.quaternion)
     .normalize();
 
-  // worldNormal を up に合わせる回転
   const correctionQuat = new THREE.Quaternion()
-    .setFromUnitVectors(worldNormal, up);
+    .setFromUnitVectors(worldNormal, viewDir);
 
   d20.quaternion.premultiply(correctionQuat);
 }
@@ -406,6 +408,7 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
 
 
 
