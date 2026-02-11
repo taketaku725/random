@@ -1,6 +1,29 @@
 import * as THREE from "three";
 import { GLTFLoader } from "https://esm.sh/three@0.158.0/examples/jsm/loaders/GLTFLoader.js";
 
+const faceNormals = [
+  { number: 1, normal: new THREE.Vector3(0.1876, -0.5774, -0.7947) },
+  { number: 2, normal: new THREE.Vector3(0.4911, 0.3568, 0.7947) },
+  { number: 3, normal: new THREE.Vector3(-0.4911, 0.3568, -0.7947) },
+  { number: 4, normal: new THREE.Vector3(-0.1876, -0.5774, 0.7947) },
+  { number: 5, normal: new THREE.Vector3(0.7946, -0.5774, 0.1876) },
+  { number: 6, normal: new THREE.Vector3(-0.9822, 0.0000, 0.1876) },
+  { number: 7, normal: new THREE.Vector3(0.6071, 0.0000, -0.7947) },
+  { number: 8, normal: new THREE.Vector3(-0.3035, 0.9342, 0.1876) },
+  { number: 9, normal: new THREE.Vector3(-0.7946, -0.5774, -0.1876) },
+  { number: 10, normal: new THREE.Vector3(0.3035, 0.9342, -0.1876) },
+  { number: 11, normal: new THREE.Vector3(-0.3035, -0.9342, 0.1876) },
+  { number: 12, normal: new THREE.Vector3(0.7946, 0.5774, 0.1876) },
+  { number: 13, normal: new THREE.Vector3(0.3035, -0.9342, -0.1876) },
+  { number: 14, normal: new THREE.Vector3(-0.6071, 0.0000, 0.7947) },
+  { number: 15, normal: new THREE.Vector3(0.9822, 0.0000, -0.1876) },
+  { number: 16, normal: new THREE.Vector3(-0.7946, 0.5774, -0.1876) },
+  { number: 17, normal: new THREE.Vector3(0.1876, 0.5774, -0.7947) },
+  { number: 18, normal: new THREE.Vector3(0.4911, -0.3568, 0.7947) },
+  { number: 19, normal: new THREE.Vector3(-0.4911, -0.3568, -0.7947) },
+  { number: 20, normal: new THREE.Vector3(-0.1876, 0.5774, 0.7947) }
+];
+
 const suits = ["s", "h", "d", "c"];
 const ranks = ["a","2","3","4","5","6","7","8","9","10","j","q","k"];
 
@@ -194,7 +217,6 @@ function rollDice20() {
   if (!d20 || isRolling20) return;
   isRolling20 = true;
 
-  const result = Math.floor(Math.random() * 20) + 1;
   document.getElementById("dice20-result").textContent = "";
 
   const duration = 1500;
@@ -222,16 +244,43 @@ function rollDice20() {
       requestAnimationFrame(spin);
     } else {
 
+      const result = getTopFaceNumber();
       document.getElementById("dice20-result").textContent = result;
 
       if (result === 20) {
         d20.scale.set(1.4,1.4,1.4);
         setTimeout(() => d20.scale.set(1,1,1), 400);
       }
+
       isRolling20 = false;
-    }
+    }  
+
   }
   requestAnimationFrame(spin);
+}
+
+function getTopFaceNumber() {
+
+  const up = new THREE.Vector3(0, 1, 0);
+
+  let maxDot = -Infinity;
+  let topNumber = null;
+
+  faceNormals.forEach(face => {
+
+    const worldNormal = face.normal.clone()
+      .applyQuaternion(d20.quaternion)
+      .normalize();
+
+    const dot = worldNormal.dot(up);
+
+    if (dot > maxDot) {
+      maxDot = dot;
+      topNumber = face.number;
+    }
+  });
+
+  return topNumber;
 }
 
 
@@ -339,6 +388,7 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
 
 
 
