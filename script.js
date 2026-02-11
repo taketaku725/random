@@ -1,6 +1,14 @@
 import * as THREE from "three";
 import { GLTFLoader } from "https://esm.sh/three@0.158.0/examples/jsm/loaders/GLTFLoader.js";
 
+let deck = [];
+let isDrawing = false;
+let drawnCount = 0;
+let diceCubes = [];
+let diceState = []; // 現在の角度を保持
+let scene, camera, renderer, d20;
+let isRolling20 = false;
+
 const faceNormals = [
   { number: 1, normal: new THREE.Vector3(0.1876, -0.5774, -0.7947) },
   { number: 2, normal: new THREE.Vector3(0.4911, 0.3568, 0.7947) },
@@ -37,16 +45,6 @@ for (const s of suits) {
 
 masterDeck.push({ image: "img/joker1.png" });
 masterDeck.push({ image: "img/joker2.png" });
-
-let deck = [];
-let isDrawing = false;
-let drawnCount = 0;
-let diceCubes = [];
-let diceState = []; // 現在の角度を保持
-let scene, camera, renderer, d20;
-let isRolling20 = false;
-
-
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -418,6 +416,7 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
 
 
 
