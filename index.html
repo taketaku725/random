@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ランダマイザーβ007</title>
+<title>ランダマイザーβ006</title>
 <link rel="stylesheet" href="style.css">
 
 <script type="importmap">
@@ -23,15 +23,38 @@
   <button class="tab" data-target="dice20">20面ダイス</button>
 </div>
 
+<!-- ===== トランプ ===== -->
 <section id="card" class="screen active">
+
   <div id="count-area">
     山札 残り <span id="count">54</span> 枚
   </div>
 
   <div id="deck-wrapper">
     <div id="deck-card" class="card main">
-      <div id="next-card" class="card-layer card"></div>
-      <div id="current-card" class="card-layer card"></div>
+
+      <div id="next-card" class="card-layer card">
+        <div class="card-inner">
+          <div class="card-face back">
+            <img src="img/ura.png">
+          </div>
+          <div class="card-face front">
+            <img src="img/ura.png">
+          </div>
+        </div>
+      </div>
+
+      <div id="current-card" class="card-layer card">
+        <div class="card-inner">
+          <div class="card-face back">
+            <img src="img/ura.png">
+          </div>
+          <div class="card-face front">
+            <img src="img/ura.png">
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -41,10 +64,13 @@
   <div id="log">
     <ul id="log-list"></ul>
   </div>
+
 </section>
 
+<!-- ===== 6面ダイス ===== -->
 <section id="dice6" class="screen">
   <h2>6面ダイス</h2>
+
   <select id="dice-count">
     <option value="1">1個</option>
     <option value="2">2個</option>
@@ -52,11 +78,14 @@
     <option value="4">4個</option>
     <option value="5">5個</option>
   </select>
+
   <button id="roll6-btn">振る</button>
+
   <div id="dice6-area" class="dice-area"></div>
   <div id="dice6-total" class="dice-total"></div>
 </section>
 
+<!-- ===== 20面ダイス ===== -->
 <section id="dice20" class="screen">
   <h2>20面ダイス</h2>
   <button id="roll20-btn">振る</button>
@@ -67,4 +96,3 @@
 <script type="module" src="script.js"></script>
 </body>
 </html>
-
