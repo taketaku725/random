@@ -39,15 +39,31 @@ document.addEventListener("DOMContentLoaded", () => {
   shuffleDeck();
   initDice6();
   initDice20();
+  // タブ復元
+  const savedTab = localStorage.getItem("lastTab");
+
+  if (savedTab) {
+    const btn = document.querySelector(`.tab[data-target="${savedTab}"]`);
+    if (btn) {
+      showScreen(savedTab, btn);
+    }
+  }
 });
 
-
 function showScreen(id, btn) {
-  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
-  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+
+  document.querySelectorAll(".screen")
+    .forEach(s => s.classList.remove("active"));
+
+  document.querySelectorAll(".tab")
+    .forEach(t => t.classList.remove("active"));
 
   document.getElementById(id).classList.add("active");
-  btn.classList.add("active");
+
+  if (btn) btn.classList.add("active");
+
+  // 保存
+  localStorage.setItem("lastTab", id);
 }
 
 let diceCubes = [];
@@ -327,4 +343,5 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
 
