@@ -65,7 +65,7 @@ function initDice6() {
 function rollDice6() {
 
   const totalEl = document.getElementById("dice6-total");
-  totalEl.textContent = ""; // 開始で消す
+  totalEl.textContent = "";
 
   let total = 0;
   let finished = 0;
@@ -77,7 +77,6 @@ function rollDice6() {
 
     const rot = getRotationForValue(value);
 
-    // 立体対角線 4パターン
     const axes = [
       { x: 1,  y: 1,  z: 1 },
       { x: 1,  y: -1, z: 1 },
@@ -89,17 +88,13 @@ function rollDice6() {
 
     cube.style.transition = "transform 1s linear";
 
-    // 空間で捻る
+    // 回転量 + 最終角度を一発で指定
     cube.style.transform =
-      `rotate3d(${axis.x}, ${axis.y}, ${axis.z}, 1080deg)`;
+      `rotate3d(${axis.x}, ${axis.y}, ${axis.z}, 1080deg)
+       rotateX(${rot.x}deg)
+       rotateY(${rot.y}deg)`;
 
     setTimeout(() => {
-
-      cube.style.transition = "none";
-
-      // 正面へスナップ
-      cube.style.transform =
-        `rotateX(${rot.x}deg) rotateY(${rot.y}deg)`;
 
       finished++;
 
