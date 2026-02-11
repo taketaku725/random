@@ -1,5 +1,3 @@
-/* ===== デッキ生成 ===== */
-
 const suits = ["s", "h", "d", "c"];
 const ranks = ["a","2","3","4","5","6","7","8","9","10","j","q","k"];
 
@@ -16,89 +14,208 @@ masterDeck.push({ image: "img/joker2.png" });
 
 let deck = [];
 let isDrawing = false;
-
-/* ===== 初期化 ===== */
+let drawnCount = 0;
 
 document.addEventListener("DOMContentLoaded", () => {
   shuffleDeck();
+  initDice6();
 });
 
-/* ===== シャッフル ===== */
+function showScreen(id, btn) {
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+
+  document.getElementById(id).classList.add("active");
+  btn.classList.add("active");
+}
+
+let diceCubes = [];
+
+function initDice6() {
+
+  const count = Number(document.getElementById("dice-count").value);
+  const area = document.getElementById("dice6-area");
+
+  area.innerHTML = "";
+  diceCubes = [];
+
+  for (let i = 0; i < count; i++) {
+
+    const cube = document.createElement("div");
+    cube.className = "dice-cube";
+
+    for (let n = 1; n <= 6; n++) {
+      const face = document.createElement("div");
+      face.className = "dice-face face" + n;
+
+      const img = document.createElement("img");
+      img.src = "img/dice" + n + ".png";
+
+      face.appendChild(img);
+      cube.appendChild(face);
+    }
+
+    cube.style.transform = "rotateX(0deg) rotateY(0deg)";
+
+    area.appendChild(cube);
+    diceCubes.push(cube);
+  }
+}
+
+function rollDice6() {
+
+  const totalEl = document.getElementById("dice6-total");
+
+  // 回転開始で合計消す
+  totalEl.textContent = "";
+
+  let total = 0;
+  let finished = 0;
+
+  diceCubes.forEach(cube => {
+
+    const value = Math.floor(Math.random() * 6) + 1;
+    total += value;
+
+    const rot = getRotationForValue(value);
+
+    // 斜め軸4方向（XとYを同じ比率）
+    const directions = [
+      { x: 720,  y: 720  },   // 右前
+      { x: 720,  y: -720 },   // 左前
+      { x: -720, y: 720  },   // 右奥
+      { x: -720, y: -720 }    // 左奥
+    ];
+
+    const dir = directions[Math.floor(Math.random() * 4)];
+
+    cube.style.transition = "transform 0.8s linear";
+
+    // 斜め一本回転
+    cube.style.transform =
+      `rotateX(${dir.x}deg) rotateY(${dir.y}deg)`;
+
+    setTimeout(() => {
+
+      cube.style.transition = "none";
+
+      // 正面にスナップ
+      cube.style.transform =
+        `rotateX(${rot.x}deg) rotateY(${rot.y}deg)`;
+
+      finished++;
+
+      if (finished === diceCubes.length) {
+        totalEl.textContent = "合計: " + total;
+      }
+
+    }, 800);
+
+  });
+}
+
+
+
+function getRotationForValue(value) {
+
+  switch(value) {
+    case 1: return { x: 0, y: 0 };
+    case 2: return { x: 0, y: -90 };
+    case 3: return { x: -90, y: 0 };
+    case 4: return { x: 90, y: 0 };
+    case 5: return { x: 0, y: 90 };
+    case 6: return { x: 0, y: 180 };
+  }
+}
+
+function rollDice20() {
+  const result = Math.floor(Math.random() * 20) + 1;
+  document.getElementById("dice20-result").textContent = result;
+}
 
 function shuffleDeck() {
   deck = [...masterDeck];
   shuffle(deck);
 
-  const deckCard = document.getElementById("deck-card");
-  if (!deckCard) {
-    console.error("deck-card が見つかりません");
-    return;
-  }
+  drawnCount = 0;
 
-  deckCard.classList.remove("flip", "joker-glow");
+  const current = document.getElementById("current-card");
+  const next = document.getElementById("next-card");
 
-  const frontImg = deckCard.querySelector(".card-face.front img");
-  if (frontImg) {
-    frontImg.src = "img/ura.png";
-  }
+  current.classList.remove("flip", "fly-up", "joker-glow");
+  next.classList.remove("flip", "fly-up", "joker-glow");
 
-  const logList = document.getElementById("log-list");
-  if (logList) {
-    logList.innerHTML = "";
-  }
+  current.querySelector(".card-face.front img").src = "img/ura.png";
+  next.querySelector(".card-face.front img").src = "img/ura.png";
 
+  document.getElementById("log-list").innerHTML = "";
   updateCount();
 }
-
-/* ===== ドロー（山札その場でめくる） ===== */
 
 function drawCard() {
   if (deck.length === 0 || isDrawing) return;
   isDrawing = true;
 
-  const card = deck.pop();
+  const drawBtn = document.getElementById("draw-btn");
+  const current = document.getElementById("current-card");
+  const next = document.getElementById("next-card");
 
-  const deckCard = document.getElementById("deck-card");
-  if (!deckCard) {
+  drawBtn.disabled = true;
+
+  current.classList.remove("joker-glow");
+  next.classList.remove("joker-glow");
+
+  const currentFront = current.querySelector(".card-face.front img");
+  const nextFront = next.querySelector(".card-face.front img");
+
+  const nextCardData = deck[deck.length - 1];
+  const isJoker = nextCardData.image.includes("joker");
+
+  nextFront.src = nextCardData.image;
+  next.classList.add("flip");
+
+  if (drawnCount === 0) {
+    deck.pop();
+    currentFront.src = nextCardData.image;
+    current.classList.add("flip");
+
+    if (isJoker) {
+      current.classList.add("joker-glow");
+    }
+
+    addLog(nextCardData.image);
+    updateCount();
+    drawnCount++;
     isDrawing = false;
     return;
   }
 
-  const frontImg = deckCard.querySelector(".card-face.front img");
-  if (!frontImg) {
+  current.classList.add("fly-up");
+
+  setTimeout(() => {
+
+    current.classList.remove("fly-up");
+
+    currentFront.src = nextFront.src;
+
+    if (isJoker) {
+      current.classList.add("joker-glow");
+    }
+
+    addLog(currentFront.src);
+    deck.pop();
+    updateCount();
+    drawnCount++;
     isDrawing = false;
-    return;
-  }
 
-  deckCard.classList.remove("flip", "joker-glow");
-
-  // 表を仕込む
-  frontImg.src = card.image;
-
-  // めくる
-  requestAnimationFrame(() => {
-    deckCard.classList.add("flip");
-  });
-
-  // ジョーカー演出
-  if (card.image.includes("joker")) {
-    deckCard.classList.add("joker-glow");
-  }
-
-  addLog(card.image);
-  updateCount();
-  isDrawing = false;
+  }, 600);
 }
-
-/* ===== ログ ===== */
 
 function addLog(src) {
   const logList = document.getElementById("log-list");
   if (!logList) return;
 
   const li = document.createElement("li");
-  li.className = "log-card";
-
   const img = document.createElement("img");
   img.src = src;
 
@@ -106,16 +223,13 @@ function addLog(src) {
   logList.prepend(li);
 }
 
-/* ===== 残り枚数 ===== */
-
 function updateCount() {
   const countEl = document.getElementById("count");
-  if (countEl) {
-    countEl.textContent = deck.length;
-  }
-}
+  const drawBtn = document.getElementById("draw-btn");
 
-/* ===== シャッフル用 ===== */
+  countEl.textContent = deck.length;
+  drawBtn.disabled = (deck.length === 0);
+}
 
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -123,4 +237,3 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
-
