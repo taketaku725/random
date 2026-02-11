@@ -308,8 +308,8 @@ function shuffle(array) {
   }
 }
 
-
-
-
-
-
+window.showScreen = showScreen;
+window.rollDice6 = rollDice6;
+window.rollDice20 = rollDice20;
+window.drawCard = drawCard;
+window.shuffleDeck = shuffleDeck;
