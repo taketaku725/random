@@ -271,7 +271,7 @@ function rollDice20() {
       }
 
       isRolling20 = false;
-
+    }
   }
   requestAnimationFrame(spin);
 }
@@ -425,4 +425,5 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
 
