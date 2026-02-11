@@ -269,7 +269,7 @@ function rollDice20() {
 
 function getFrontFaceNumber() {
 
-  const viewDir = new THREE.Vector3(0, 0, 1);
+  const viewDir = new THREE.Vector3(0, 0, -1);
 
   let maxDot = -Infinity;
   let frontNumber = null;
@@ -293,7 +293,7 @@ function getFrontFaceNumber() {
 
 function snapToFrontFace(number) {
 
-  const viewDir = new THREE.Vector3(0, 0, 1);
+  const viewDir = new THREE.Vector3(0, 0, -1);
 
   const face = faceNormals.find(f => f.number === number);
 
@@ -416,6 +416,7 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
 
 
 
