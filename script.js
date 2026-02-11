@@ -30,7 +30,10 @@ function shuffleDeck() {
   shuffle(deck);
 
   const deckCard = document.getElementById("deck-card");
-  if (!deckCard) return;
+  if (!deckCard) {
+    console.error("deck-card が見つかりません");
+    return;
+  }
 
   deckCard.classList.remove("flip", "joker-glow");
 
@@ -120,3 +123,4 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
