@@ -142,29 +142,32 @@ function initDice20() {
   const container = document.getElementById("dice20-canvas");
   if (!container) return;
 
-  const width = container.clientWidth || 300;
-  const height = container.clientHeight || 300;
+  const width = container.getBoundingClientRect().width;
+  const height = container.getBoundingClientRect().height;
 
   scene = new THREE.Scene();
+
   camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
-  camera.position.set(0, 0, 5);
+  camera.position.set(0, 0, 4);
 
   renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-  renderer.setSize(width, height);
+  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.setSize(width, height, false);
+
   container.appendChild(renderer.domElement);
 
   const light = new THREE.DirectionalLight(0xffffff, 1);
   light.position.set(5, 5, 5);
   scene.add(light);
 
-  const ambient = new THREE.AmbientLight(0xffffff, 0.6);
+  const ambient = new THREE.AmbientLight(0xffffff, 0.7);
   scene.add(ambient);
 
   const loader = new GLTFLoader();
   loader.load("assets/d20.glb", (gltf) => {
     d20 = gltf.scene;
     scene.add(d20);
-    animate();
+    renderer.render(scene, camera); // 初期描画
   });
 }
 
@@ -324,3 +327,4 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
