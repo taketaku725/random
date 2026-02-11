@@ -7,69 +7,45 @@
 </head>
 <body>
 
-<h1>トランプを1枚引く β004</h1>
+  <h1>トランプ β005</h1>
 
-<div class="controls fixed">
-  <button onclick="drawCard()">引く</button>
-  <button onclick="shuffleDeck()">シャッフル</button>
-</div>
+  <div id="app">
 
-<div id="card-lane">
-
-  <!-- 山札 -->
-  <div id="deck-area">
-    <div id="deck-card" class="card main">
-      <div class="card-inner">
-        <div class="card-face back">
-          <img src="img/ura.png">
-        </div>
-        <div class="card-face front">
-          <img src="img/ura.png">
-        </div>
-      </div>
+    <!-- 残り枚数 -->
+    <div id="count-area">
+      残り <span id="count"></span> 枚
     </div>
-    <div class="count">
-      山札 残り <span id="count"></span> 枚
-    </div>
-  </div>
 
-  <!-- 結果 -->
-  <div id="result">
-    <div id="result-card" class="card main hidden">
-      <div class="card-inner">
-        <div class="card-face back">
-          <img src="img/ura.png">
-        </div>
-        <div class="card-face front">
-          <img src="img/ura.png">
+    <!-- 山札（ここでめくる） -->
+    <div id="deck-wrapper">
+      <div id="deck-card" class="card main">
+        <div class="card-inner">
+          <div class="card-face back">
+            <img src="img/ura.png">
+          </div>
+          <div class="card-face front">
+            <img src="img/ura.png">
+          </div>
         </div>
       </div>
     </div>
-  </div>
+    
+    <!-- 引く -->
+    <button id="draw-btn" onclick="drawCard()">引く</button>
 
-</div>
+    <!-- シャッフル -->
+    <button id="shuffle-btn" onclick="shuffleDeck()">シャッフル</button>
 
-<!-- 落下アニメーション用 -->
-<div id="flying-card" class="card main">
-  <div class="card-inner">
-    <div class="card-face back">
-      <img src="img/ura.png">
-    </div>
-    <div class="card-face front">
-      <img src="img/ura.png">
+    <!-- ログ -->
+    <div id="log">
+      <ul id="log-list"></ul>
     </div>
   </div>
-</div>
 
-<!-- ログ -->
-<div id="log">
-  <h3>結果ログ</h3>
-  <ul id="log-list"></ul>
-</div>
-
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
+
 
 
 
