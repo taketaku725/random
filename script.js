@@ -69,8 +69,6 @@ document.addEventListener("DOMContentLoaded", () => {
   showScreen(savedTab, btn);
 });
 
-console.log("Initial quaternion:", d20.quaternion);
-
 
 function showScreen(id, btn) {
 
@@ -204,8 +202,13 @@ function initDice20() {
   const loader = new GLTFLoader();
   loader.load("assets/d20.glb", (gltf) => {
     d20 = gltf.scene;
+
+    d20.position.set(0, 0, 0);
+    d20.rotation.set(0, 0, 0);
+    d20.scale.set(1, 1, 1);
+
     scene.add(d20);
-    renderer.render(scene, camera); // 初期描画
+    renderer.render(scene, camera);
   });
 }
 
@@ -414,6 +417,7 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
 
 
 
