@@ -245,6 +245,7 @@ function rollDice20() {
     } else {
 
       const result = getTopFaceNumber();
+      snapToFace(result);
       document.getElementById("dice20-result").textContent = result;
 
       if (result === 20) {
@@ -281,6 +282,23 @@ function getTopFaceNumber() {
   });
 
   return topNumber;
+}
+
+function snapToFace(topNumber) {
+
+  const up = new THREE.Vector3(0, 1, 0);
+
+  const face = faceNormals.find(f => f.number === topNumber);
+
+  const worldNormal = face.normal.clone()
+    .applyQuaternion(d20.quaternion)
+    .normalize();
+
+  // worldNormal を up に合わせる回転
+  const correctionQuat = new THREE.Quaternion()
+    .setFromUnitVectors(worldNormal, up);
+
+  d20.quaternion.premultiply(correctionQuat);
 }
 
 
@@ -388,6 +406,7 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
 
 
 
