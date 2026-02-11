@@ -1,3 +1,6 @@
+import * as THREE from 'https://unpkg.com/three@0.158.0/build/three.module.js';
+import { GLTFLoader } from 'https://unpkg.com/three@0.158.0/examples/jsm/loaders/GLTFLoader.js';
+
 const suits = ["s", "h", "d", "c"];
 const ranks = ["a","2","3","4","5","6","7","8","9","10","j","q","k"];
 
@@ -302,3 +305,4 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
