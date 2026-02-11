@@ -17,6 +17,12 @@ masterDeck.push({ image: "img/joker2.png" });
 let deck = [];
 let isDrawing = false;
 
+/* ===== 初期化 ===== */
+
+document.addEventListener("DOMContentLoaded", () => {
+  shuffleDeck();
+});
+
 /* ===== シャッフル ===== */
 
 function shuffleDeck() {
@@ -24,16 +30,24 @@ function shuffleDeck() {
   shuffle(deck);
 
   const deckCard = document.getElementById("deck-card");
-  if (!deckCard) return; // 保険
+  if (!deckCard) return;
 
   deckCard.classList.remove("flip", "joker-glow");
-  deckCard.querySelector(".card-face.front img").src = "img/ura.png";
 
-  document.getElementById("log-list").innerHTML = "";
+  const frontImg = deckCard.querySelector(".card-face.front img");
+  if (frontImg) {
+    frontImg.src = "img/ura.png";
+  }
+
+  const logList = document.getElementById("log-list");
+  if (logList) {
+    logList.innerHTML = "";
+  }
+
   updateCount();
 }
 
-/* ===== ドロー ===== */
+/* ===== ドロー（山札その場でめくる） ===== */
 
 function drawCard() {
   if (deck.length === 0 || isDrawing) return;
@@ -42,7 +56,16 @@ function drawCard() {
   const card = deck.pop();
 
   const deckCard = document.getElementById("deck-card");
+  if (!deckCard) {
+    isDrawing = false;
+    return;
+  }
+
   const frontImg = deckCard.querySelector(".card-face.front img");
+  if (!frontImg) {
+    isDrawing = false;
+    return;
+  }
 
   deckCard.classList.remove("flip", "joker-glow");
 
@@ -64,9 +87,12 @@ function drawCard() {
   isDrawing = false;
 }
 
-/* ===== ログ追加 ===== */
+/* ===== ログ ===== */
 
 function addLog(src) {
+  const logList = document.getElementById("log-list");
+  if (!logList) return;
+
   const li = document.createElement("li");
   li.className = "log-card";
 
@@ -74,16 +100,19 @@ function addLog(src) {
   img.src = src;
 
   li.appendChild(img);
-  document.getElementById("log-list").prepend(li);
+  logList.prepend(li);
 }
 
 /* ===== 残り枚数 ===== */
 
 function updateCount() {
-  document.getElementById("count").textContent = deck.length;
+  const countEl = document.getElementById("count");
+  if (countEl) {
+    countEl.textContent = deck.length;
+  }
 }
 
-/* ===== シャッフル処理 ===== */
+/* ===== シャッフル用 ===== */
 
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -91,9 +120,3 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
-
-/* ===== 初期化 ===== */
-
-document.addEventListener("DOMContentLoaded", () => {
-  shuffleDeck();
-});
