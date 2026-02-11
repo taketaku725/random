@@ -65,8 +65,7 @@ function initDice6() {
 function rollDice6() {
 
   const totalEl = document.getElementById("dice6-total");
-
-  totalEl.textContent = "";
+  totalEl.textContent = ""; // 開始で消す
 
   let total = 0;
   let finished = 0;
@@ -78,19 +77,19 @@ function rollDice6() {
 
     const rot = getRotationForValue(value);
 
-    // 斜め軸4方向
+    // 立体対角線 4パターン
     const axes = [
-      { x: 1,  y: 1,  z: 0 },
-      { x: 1,  y: -1, z: 0 },
-      { x: -1, y: 1,  z: 0 },
-      { x: -1, y: -1, z: 0 }
+      { x: 1,  y: 1,  z: 1 },
+      { x: 1,  y: -1, z: 1 },
+      { x: -1, y: 1,  z: 1 },
+      { x: -1, y: -1, z: 1 }
     ];
 
     const axis = axes[Math.floor(Math.random() * 4)];
 
-    cube.style.transition = "transform 0.9s linear";
+    cube.style.transition = "transform 1s linear";
 
-    // 単一軸回転
+    // 空間で捻る
     cube.style.transform =
       `rotate3d(${axis.x}, ${axis.y}, ${axis.z}, 1080deg)`;
 
@@ -98,7 +97,7 @@ function rollDice6() {
 
       cube.style.transition = "none";
 
-      // 正面にスナップ
+      // 正面へスナップ
       cube.style.transform =
         `rotateX(${rot.x}deg) rotateY(${rot.y}deg)`;
 
@@ -108,7 +107,7 @@ function rollDice6() {
         totalEl.textContent = "合計: " + total;
       }
 
-    }, 900);
+    }, 1000);
 
   });
 }
