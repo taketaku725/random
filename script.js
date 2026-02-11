@@ -20,10 +20,27 @@ let isDrawing = false;
 let drawnCount = 0;
 
 document.addEventListener("DOMContentLoaded", () => {
+
+  // タブ切替
+  document.querySelectorAll(".tab").forEach(btn => {
+    btn.addEventListener("click", () => {
+      showScreen(btn.dataset.target, btn);
+    });
+  });
+
+  // ボタン
+  document.getElementById("draw-btn").addEventListener("click", drawCard);
+  document.getElementById("shuffle-btn").addEventListener("click", shuffleDeck);
+  document.getElementById("roll6-btn").addEventListener("click", rollDice6);
+  document.getElementById("roll20-btn").addEventListener("click", rollDice20);
+
+  document.getElementById("dice-count").addEventListener("change", initDice6);
+
   shuffleDeck();
   initDice6();
   initDice20();
 });
+
 
 function showScreen(id, btn) {
   document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
@@ -307,9 +324,3 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
-
-window.showScreen = showScreen;
-window.rollDice6 = rollDice6;
-window.rollDice20 = rollDice20;
-window.drawCard = drawCard;
-window.shuffleDeck = shuffleDeck;
