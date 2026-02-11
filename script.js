@@ -27,9 +27,11 @@ function shuffleDeck() {
   deck = [...masterDeck];
   shuffle(deck);
 
-  const resultCard = document.getElementById("result-card");
-  resultCard.classList.add("hidden");
-  resultCard.classList.remove("flip", "joker-glow");
+  const deckCard = document.getElementById("deck-card");
+  deckCard.classList.remove("flip", "joker-glow");
+
+  // 裏面に戻す
+  deckCard.querySelector(".card-face.front img").src = "img/ura.png";
 
   document.getElementById("log-list").innerHTML = "";
   updateCount();
@@ -41,60 +43,32 @@ function drawCard() {
   if (deck.length === 0 || isDrawing) return;
   isDrawing = true;
 
-  animateDraw();
+  const card = deck.pop();
 
-  setTimeout(() => {
-    const card = deck.pop();
+  const deckCard = document.getElementById("deck-card");
+  const frontImg = deckCard.querySelector(".card-face.front img");
 
-    const resultCard = document.getElementById("result-card");
-    const frontImg = resultCard.querySelector(".card-face.front img");
+  deckCard.classList.remove("flip", "joker-glow");
 
-    // 結果カードを表示
-    resultCard.classList.remove("hidden");
-    resultCard.classList.remove("flip", "joker-glow");
+  // 表を仕込む
+  frontImg.src = card.image;
 
-    // 表画像セット
-    frontImg.src = card.image;
-
-    // めくる
-    requestAnimationFrame(() => {
-      resultCard.classList.add("flip");
-    });
-
-    // ジョーカー演出（結果のみ）
-    if (card.image.includes("joker")) {
-      resultCard.classList.add("joker-glow");
-    }
-
-    // 飛んでるカード消す
-    document.getElementById("flying-card").style.opacity = "0";
-
-    addLog(card.image);
-    updateCount();
-    isDrawing = false;
-  }, 400);
-}
-
-/* ===== 落下アニメ ===== */
-
-function animateDraw() {
-  const flying = document.getElementById("flying-card");
-  const inner = flying.querySelector(".card-inner");
-  const frontImg = flying.querySelector(".card-face.front img");
-
-  inner.style.transform = "rotateY(0deg)";
-  frontImg.src = "img/ura.png";
-
-  flying.style.opacity = "1";
-  flying.style.transform = "translateX(-50%) translateY(0)";
-
+  // めくる
   requestAnimationFrame(() => {
-    flying.style.transform =
-      "translateX(-50%) translateY(240px)";
+    deckCard.classList.add("flip");
   });
+
+  // ジョーカー演出
+  if (card.image.includes("joker")) {
+    deckCard.classList.add("joker-glow");
+  }
+
+  addLog(card.image);
+  updateCount();
+  isDrawing = false;
 }
 
-/* ===== ログ ===== */
+/* ===== ログ追加 ===== */
 
 function addLog(src) {
   const li = document.createElement("li");
@@ -113,7 +87,7 @@ function updateCount() {
   document.getElementById("count").textContent = deck.length;
 }
 
-/* ===== ユーティリティ ===== */
+/* ===== シャッフル処理 ===== */
 
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -121,6 +95,3 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
-
-
-
