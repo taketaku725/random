@@ -86,10 +86,14 @@ function showScreen(id, btn) {
 
   if (btn) btn.classList.add("active");
 
-  // 保存
   localStorage.setItem("lastTab", id);
-}
 
+  // ★ ここ追加
+  if (renderer) {
+    renderer.domElement.style.display =
+      (id === "dice20") ? "block" : "none";
+  }
+}
 
 function initDice6() {
 
@@ -429,6 +433,7 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
 
 
 
