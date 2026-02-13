@@ -201,18 +201,17 @@ function initDice20() {
   scene.add(ambient);
 
   const loader = new GLTFLoader();
-  loader.load("assets/d20.glb", (gltf) => {
+    loader.load("assets/d20.glb", (gltf) => {
     d20 = gltf.scene;
 
     d20.position.set(0, 0, 0);
     d20.rotation.set(0, 0, 0);
     d20.scale.set(1, 1, 1);
 
-    console.log(gltf.scene);
-    console.log(d20.quaternion);
-
     scene.add(d20);
     renderer.render(scene, camera);
+
+    window.d20 = d20; // ← これ超重要
   });
 }
 
@@ -283,7 +282,7 @@ function rollDice20() {
 
 function getFrontFaceNumber() {
 
-  const viewDir = new THREE.Vector3(0, 0, -1);
+  const FRONT = new THREE.Vector3(0, 0, -1);
 
   let maxDot = -Infinity;
   let frontNumber = null;
@@ -294,7 +293,7 @@ function getFrontFaceNumber() {
       .applyQuaternion(d20.quaternion)
       .normalize();
 
-    const dot = worldNormal.dot(viewDir);
+    const dot = worldNormal.dot(FRONT);
 
     if (dot > maxDot) {
       maxDot = dot;
@@ -430,6 +429,7 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
 
 
 
