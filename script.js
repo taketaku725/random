@@ -202,7 +202,7 @@ function initDice20() {
 
   const loader = new GLTFLoader();
   loader.load("assets/d20.glb", (gltf) => {
-    d20 = gltf.scene.;
+    d20 = gltf.scene;
 
     d20.position.set(0, 0, 0);
     d20.rotation.set(0, 0, 0);
@@ -430,6 +430,7 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
 
 
 
