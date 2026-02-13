@@ -256,14 +256,16 @@ function rollDice20() {
 
       const FRONT = new THREE.Vector3(0, 0, -1);
 
+      const face = faceNormals.find(f => f.number === result);
+
       const targetQuat = new THREE.Quaternion()
         .setFromUnitVectors(
           face.normal.clone().normalize(),
           FRONT
         );
 
+      d20.rotation.set(0,0,0);
       d20.quaternion.copy(targetQuat);
-
 
       document.getElementById("dice20-result").textContent = result;
 
@@ -427,6 +429,7 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
 
 
 
