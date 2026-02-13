@@ -48,7 +48,6 @@ masterDeck.push({ image: "img/joker2.png" });
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  // タブイベント登録
   document.querySelectorAll(".tab").forEach(btn => {
     btn.addEventListener("click", () => {
       showScreen(btn.dataset.target, btn);
@@ -61,18 +60,19 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("roll20-btn").addEventListener("click", rollDice20);
   document.getElementById("dice-count").addEventListener("change", initDice6);
 
-  shuffleDeck();
-  initDice6();
-  initDice20();
-
-  // ===== タブ復元（改良版） =====
-
+  // ① まずタブ復元
   const savedTab = localStorage.getItem("lastTab") || "card";
-
   const btn = document.querySelector(`.tab[data-target="${savedTab}"]`);
   showScreen(savedTab, btn);
-});
 
+  // ② その後初期化
+  shuffleDeck();
+  initDice6();
+
+  if (savedTab === "dice20") {
+    initDice20();
+  }
+});
 
 function showScreen(id, btn) {
 
@@ -433,6 +433,7 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
 
 
 
