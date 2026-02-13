@@ -211,7 +211,10 @@ function initDice20() {
     scene.add(d20);
     renderer.render(scene, camera);
 
-    window.d20 = d20; // ← これ超重要
+    window.d20 = d20; // ← これ追加
+    window.renderer = renderer; // ← ついでに
+    window.camera = camera;
+    window.scene = scene;
   });
 }
 
@@ -429,6 +432,7 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
 
 
 
