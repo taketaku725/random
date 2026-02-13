@@ -261,7 +261,7 @@ function rollDice20() {
         );
 
       // 補間で吸い付くように止める
-      d20.quaternion.slerp(targetQuat, 1);
+      d20.quaternion.copy(targetQuat);
 
       document.getElementById("dice20-result").textContent = result;
 
@@ -425,6 +425,7 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
 
 
 
