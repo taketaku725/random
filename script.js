@@ -74,6 +74,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+let dice20Initialized = false;
+
 function showScreen(id, btn) {
 
   document.querySelectorAll(".screen")
@@ -83,15 +85,13 @@ function showScreen(id, btn) {
     .forEach(t => t.classList.remove("active"));
 
   document.getElementById(id).classList.add("active");
-
   if (btn) btn.classList.add("active");
 
   localStorage.setItem("lastTab", id);
 
-  // ★ ここ追加
-  if (renderer) {
-    renderer.domElement.style.display =
-      (id === "dice20") ? "block" : "none";
+  if (id === "dice20" && !dice20Initialized) {
+    initDice20();
+    dice20Initialized = true;
   }
 }
 
@@ -433,6 +433,7 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
 
 
 
