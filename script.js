@@ -201,13 +201,14 @@ function initDice20() {
 
   const loader = new GLTFLoader();
   loader.load("assets/d20.glb", (gltf) => {
-    d20 = gltf.scene;
+    d20 = gltf.scene.children[0];
 
     d20.position.set(0, 0, 0);
     d20.rotation.set(0, 0, 0);
     d20.scale.set(1, 1, 1);
 
     console.log(gltf.scene);
+    console.log(d20.quaternion);
 
     scene.add(d20);
     renderer.render(scene, camera);
@@ -254,7 +255,6 @@ function rollDice20() {
       const result = Math.floor(Math.random() * 20) + 1;
 
       const FRONT = new THREE.Vector3(0, 0, -1);
-      const face = faceNormals.find(f => f.number === result);
 
       const targetQuat = new THREE.Quaternion()
         .setFromUnitVectors(
@@ -262,8 +262,8 @@ function rollDice20() {
           FRONT
         );
 
-      // 補間で吸い付くように止める
       d20.quaternion.copy(targetQuat);
+
 
       document.getElementById("dice20-result").textContent = result;
 
@@ -427,6 +427,7 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
 
 
 
