@@ -207,6 +207,8 @@ function initDice20() {
     d20.rotation.set(0, 0, 0);
     d20.scale.set(1, 1, 1);
 
+    console.log(gltf.scene);
+
     scene.add(d20);
     renderer.render(scene, camera);
   });
@@ -425,6 +427,7 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
 
 
 
