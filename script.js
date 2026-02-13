@@ -10,26 +10,26 @@ let scene, camera, renderer, d20;
 let isRolling20 = false;
 
 const faceNormals = [
-  { number: 1, normal: new THREE.Vector3(0.1876, -0.5774, -0.7947) },
-  { number: 2, normal: new THREE.Vector3(0.4911, 0.3568, 0.7947) },
-  { number: 3, normal: new THREE.Vector3(-0.4911, 0.3568, -0.7947) },
-  { number: 4, normal: new THREE.Vector3(-0.1876, -0.5774, 0.7947) },
-  { number: 5, normal: new THREE.Vector3(0.7946, -0.5774, 0.1876) },
-  { number: 6, normal: new THREE.Vector3(-0.9822, 0.0000, 0.1876) },
-  { number: 7, normal: new THREE.Vector3(0.6071, 0.0000, -0.7947) },
-  { number: 8, normal: new THREE.Vector3(-0.3035, 0.9342, 0.1876) },
-  { number: 9, normal: new THREE.Vector3(-0.7946, -0.5774, -0.1876) },
-  { number: 10, normal: new THREE.Vector3(0.3035, 0.9342, -0.1876) },
-  { number: 11, normal: new THREE.Vector3(-0.3035, -0.9342, 0.1876) },
-  { number: 12, normal: new THREE.Vector3(0.7946, 0.5774, 0.1876) },
-  { number: 13, normal: new THREE.Vector3(0.3035, -0.9342, -0.1876) },
-  { number: 14, normal: new THREE.Vector3(-0.6071, 0.0000, 0.7947) },
-  { number: 15, normal: new THREE.Vector3(0.9822, 0.0000, -0.1876) },
-  { number: 16, normal: new THREE.Vector3(-0.7946, 0.5774, -0.1876) },
-  { number: 17, normal: new THREE.Vector3(0.1876, 0.5774, -0.7947) },
-  { number: 18, normal: new THREE.Vector3(0.4911, -0.3568, 0.7947) },
-  { number: 19, normal: new THREE.Vector3(-0.4911, -0.3568, -0.7947) },
-  { number: 20, normal: new THREE.Vector3(-0.1876, 0.5774, 0.7947) }
+  { number: 1, normal: new THREE.Vector3(0.1876, -0.7947,  0.5774) },
+  { number: 2, normal: new THREE.Vector3(0.4911,  0.7947, -0.3568) },
+  { number: 3, normal: new THREE.Vector3(-0.4911, -0.7947, -0.3568) },
+  { number: 4, normal: new THREE.Vector3(-0.1876,  0.7947,  0.5774) },
+  { number: 5, normal: new THREE.Vector3(0.7946,  0.1876,  0.5774) },
+  { number: 6, normal: new THREE.Vector3(-0.9822,  0.1876,  0.0000) },
+  { number: 7, normal: new THREE.Vector3(0.6071, -0.7947,  0.0000) },
+  { number: 8, normal: new THREE.Vector3(-0.3035,  0.1876, -0.9342) },
+  { number: 9, normal: new THREE.Vector3(-0.7946, -0.1876,  0.5774) },
+  { number: 10, normal: new THREE.Vector3(0.3035, -0.1876, -0.9342) },
+  { number: 11, normal: new THREE.Vector3(-0.3035,  0.1876,  0.9342) },
+  { number: 12, normal: new THREE.Vector3(0.7946,  0.1876, -0.5774) },
+  { number: 13, normal: new THREE.Vector3(0.3035, -0.1876,  0.9342) },
+  { number: 14, normal: new THREE.Vector3(-0.6071,  0.7947,  0.0000) },
+  { number: 15, normal: new THREE.Vector3(0.9822, -0.1876,  0.0000) },
+  { number: 16, normal: new THREE.Vector3(-0.7946, -0.1876, -0.5774) },
+  { number: 17, normal: new THREE.Vector3(0.1876, -0.7947, -0.5774) },
+  { number: 18, normal: new THREE.Vector3(0.4911,  0.7947,  0.3568) },
+  { number: 19, normal: new THREE.Vector3(-0.4911, -0.7947,  0.3568) },
+  { number: 20, normal: new THREE.Vector3(-0.1876,  0.7947, -0.5774) }
 ];
 
 const suits = ["s", "h", "d", "c"];
@@ -425,5 +425,6 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
 
 
