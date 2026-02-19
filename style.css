@@ -10,6 +10,10 @@ body {
   text-align: center;
 }
 
+html, body { 
+  touch-action: manipulation; /* ダブルタップズーム抑制 */
+}
+
 .tabs {
   display: flex;
   justify-content: center;
@@ -365,6 +369,7 @@ select:focus {
     height: 65vw;
   }
 }
+
 
 
 
