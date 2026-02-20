@@ -179,17 +179,18 @@ function initDice20() {
   const container = document.getElementById("dice20-canvas");
   if (!container) return;
 
-  const width = container.getBoundingClientRect().width;
-  const height = container.getBoundingClientRect().height;
+  const rect = container.getBoundingClientRect();
+  const width = rect.width;
+  const height = rect.height;
 
   scene = new THREE.Scene();
 
   camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
-  camera.position.set(0, 0, 4);
+  camera.position.set(0, 0, 5);
 
   renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
   renderer.setPixelRatio(window.devicePixelRatio);
-  renderer.setSize(width, height, false);
+  renderer.setSize(width, height);
 
   container.appendChild(renderer.domElement);
 
@@ -377,6 +378,7 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
 
 
 
