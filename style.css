@@ -46,7 +46,7 @@ html, body {
 
 .big-display {
   font-size: 80px;
-  margin-top: 30px;
+  margin-top: 0px;
   min-height: 100px;
   display: flex;
 }
@@ -378,6 +378,7 @@ select:focus {
     height: 65vw;
   }
 }
+
 
 
 
