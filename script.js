@@ -9,28 +9,28 @@ let diceState = []; // 現在の角度を保持
 let scene, camera, renderer, d20;
 let isRolling20 = false;
 
-const faceNormals = [
-  { number: 1, normal: new THREE.Vector3(0.1876, -0.7947,  0.5774) },
-  { number: 2, normal: new THREE.Vector3(0.4911,  0.7947, -0.3568) },
-  { number: 3, normal: new THREE.Vector3(-0.4911, -0.7947, -0.3568) },
-  { number: 4, normal: new THREE.Vector3(-0.1876,  0.7947,  0.5774) },
-  { number: 5, normal: new THREE.Vector3(0.7946,  0.1876,  0.5774) },
-  { number: 6, normal: new THREE.Vector3(-0.9822,  0.1876,  0.0000) },
-  { number: 7, normal: new THREE.Vector3(0.6071, -0.7947,  0.0000) },
-  { number: 8, normal: new THREE.Vector3(-0.3035,  0.1876, -0.9342) },
-  { number: 9, normal: new THREE.Vector3(-0.7946, -0.1876,  0.5774) },
-  { number: 10, normal: new THREE.Vector3(0.3035, -0.1876, -0.9342) },
-  { number: 11, normal: new THREE.Vector3(-0.3035,  0.1876,  0.9342) },
-  { number: 12, normal: new THREE.Vector3(0.7946,  0.1876, -0.5774) },
-  { number: 13, normal: new THREE.Vector3(0.3035, -0.1876,  0.9342) },
-  { number: 14, normal: new THREE.Vector3(-0.6071,  0.7947,  0.0000) },
-  { number: 15, normal: new THREE.Vector3(0.9822, -0.1876,  0.0000) },
-  { number: 16, normal: new THREE.Vector3(-0.7946, -0.1876, -0.5774) },
-  { number: 17, normal: new THREE.Vector3(0.1876, -0.7947, -0.5774) },
-  { number: 18, normal: new THREE.Vector3(0.4911,  0.7947,  0.3568) },
-  { number: 19, normal: new THREE.Vector3(-0.4911, -0.7947,  0.3568) },
-  { number: 20, normal: new THREE.Vector3(-0.1876,  0.7947, -0.5774) }
-];
+const D20_POSES = {
+  1:  new THREE.Quaternion( 0.0380,  0.2445,  0.9574, -0.1488).normalize(),
+  2:  new THREE.Quaternion(-0.4981, -0.8052,  0.0448,  0.3186).normalize(),
+  3:  new THREE.Quaternion( 0.1256,  0.2408, -0.8533,  0.4451).normalize(),
+  4:  new THREE.Quaternion(-0.6111,  0.7245,  0.2975, -0.1148).normalize(),
+  5:  new THREE.Quaternion( 0.7601,  0.0515,  0.5471,  0.3468).normalize(),
+  6:  new THREE.Quaternion(-0.5594,  0.5254,  0.4621,  0.4444).normalize(),
+  7:  new THREE.Quaternion( 0.3128, -0.0975,  0.9121,  0.2462).normalize(),
+  8:  new THREE.Quaternion(-0.7428,  0.1123,  0.0986,  0.6526).normalize(),
+  9:  new THREE.Quaternion( 0.5729,  0.2946, -0.3498,  0.6802).normalize(),
+ 10:  new THREE.Quaternion( 0.5029,  0.4068, -0.2865, -0.7068).normalize(),
+ 11:  new THREE.Quaternion( 0.6440, -0.4288, -0.4536,  0.4423).normalize(),
+ 12:  new THREE.Quaternion(-0.6966, -0.3582, -0.2843,  0.5528).normalize(),
+ 13:  new THREE.Quaternion( 0.6028, -0.0600,  0.1604,  0.7793).normalize(),
+ 14:  new THREE.Quaternion( 0.6721,  0.6583, -0.2372,  0.2422).normalize(),
+ 15:  new THREE.Quaternion( 0.4534, -0.4576,  0.5433,  0.5383).normalize(),
+ 16:  new THREE.Quaternion(-0.2442,  0.5814, -0.1699,  0.7573).normalize(),
+ 17:  new THREE.Quaternion(-0.2110,  0.2605, -0.8582,  0.3888).normalize(),
+ 18:  new THREE.Quaternion( 0.0895, -0.9454, -0.1571,  0.2712).normalize(),
+ 19:  new THREE.Quaternion(-0.1354,  0.2627,  0.8492,  0.4376).normalize(),
+ 20:  new THREE.Quaternion( 0.1429,  0.9368, -0.3163,  0.0438).normalize()
+};
 
 const suits = ["s", "h", "d", "c"];
 const ranks = ["a","2","3","4","5","6","7","8","9","10","j","q","k"];
@@ -257,18 +257,8 @@ function rollDice20() {
 
       const result = Math.floor(Math.random() * 20) + 1;
 
-      const FRONT = new THREE.Vector3(0, 0, -1);
-
-      const face = faceNormals.find(f => f.number === result);
-
-      const targetQuat = new THREE.Quaternion()
-        .setFromUnitVectors(
-          face.normal.clone().normalize(),
-          FRONT
-        );
-
-      d20.rotation.set(0,0,0);
-      d20.quaternion.copy(targetQuat);
+      d20.quaternion.copy(D20_POSES[result]);
+      renderer.render(scene, camera);
 
       document.getElementById("dice20-result").textContent = result;
 
@@ -432,6 +422,7 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
 
 
 
