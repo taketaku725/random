@@ -273,50 +273,6 @@ function rollDice20() {
   requestAnimationFrame(spin);
 }
 
-function getFrontFaceNumber() {
-
-  const FRONT = new THREE.Vector3(0, 0, -1);
-
-  let maxDot = -Infinity;
-  let frontNumber = null;
-
-  faceNormals.forEach(face => {
-
-    const worldNormal = face.normal.clone()
-      .applyQuaternion(d20.quaternion)
-      .normalize();
-
-    const dot = worldNormal.dot(FRONT);
-
-    if (dot > maxDot) {
-      maxDot = dot;
-      frontNumber = face.number;
-    }
-  });
-
-  return frontNumber;
-}
-
-function snapToFrontFace(number) {
-
-  const viewDir = new THREE.Vector3(0, 0, -1);
-
-  const face = faceNormals.find(f => f.number === number);
-
-  const worldNormal = face.normal.clone()
-    .applyQuaternion(d20.quaternion)
-    .normalize();
-
-  const correctionQuat = new THREE.Quaternion()
-    .setFromUnitVectors(worldNormal, viewDir);
-
-  // 新しいクォータニオンを作る
-  const newQuat = correctionQuat.multiply(d20.quaternion.clone());
-
-  d20.quaternion.copy(newQuat);
-}
-
-
 
 function shuffleDeck() {
   deck = [...masterDeck];
@@ -422,6 +378,7 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
 
 
 
