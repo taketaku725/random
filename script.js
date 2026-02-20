@@ -240,14 +240,12 @@ function rollDice20() {
   function spin(now) {
 
     const elapsed = now - start;
-    const t = Math.min(elapsed / duration, 1);
+    const t = elapsed / duration;
 
-    // イージング（減速）
-    const ease = 1 - Math.pow(1 - t, 3);
-
-    d20.rotation.x += speedX * (1 - ease);
-    d20.rotation.y += speedY * (1 - ease);
-    d20.rotation.z += speedZ * (1 - ease);
+    // 一定速度で回転（減速なし）
+    d20.rotation.x += speedX;
+    d20.rotation.y += speedY;
+    d20.rotation.z += speedZ;
 
     renderer.render(scene, camera);
 
@@ -257,6 +255,7 @@ function rollDice20() {
 
       const result = Math.floor(Math.random() * 20) + 1;
 
+      // 即ビタ止め
       d20.quaternion.copy(D20_POSES[result]);
       renderer.render(scene, camera);
 
@@ -264,7 +263,7 @@ function rollDice20() {
 
       if (result === 20) {
         d20.scale.set(1.4,1.4,1.4);
-        setTimeout(() => d20.scale.set(1,1,1), 400);
+        setTimeout(() => d20.scale.set(1,1,1), 200);
       }
 
       isRolling20 = false;
@@ -378,6 +377,7 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
 
 
 
