@@ -307,17 +307,17 @@ function drawCard() {
   const drawnCard = deck.pop();
   const isJoker = drawnCard.image.includes("joker");
 
-  // ★ 次のカードを裏面に仕込む
-  backImg.src = drawnCard.image;
-
   card.classList.remove("joker-glow");
+
+  // ★ 裏に仕込む
+  backImg.src = drawnCard.image;
 
   // ★ ひっくり返す
   card.classList.toggle("flip");
 
   setTimeout(() => {
 
-    // ★ 回転が終わったら front と back を入れ替える
+    // 表として固定
     frontImg.src = drawnCard.image;
     backImg.src = "img/ura.png";
 
@@ -327,9 +327,13 @@ function drawCard() {
 
     addLog(drawnCard.image);
     updateCount();
+
     isDrawing = false;
 
-  }, 400); // CSSの0.4sと合わせる
+    // ★ ボタン復活
+    drawBtn.disabled = (deck.length === 0);
+
+  }, 400);
 }
 
 function updateCount() {
@@ -346,6 +350,7 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
 
 
 
