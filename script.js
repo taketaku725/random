@@ -336,6 +336,8 @@ function drawCard() {
   }, 400);
 }
 
+script.js:328 Uncaught ReferenceError: addLog is not defined
+    at script.js:328:5
 function updateCount() {
   const countEl = document.getElementById("count");
   const drawBtn = document.getElementById("draw-btn");
@@ -350,6 +352,7 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
 
 
 
