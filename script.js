@@ -299,52 +299,45 @@ function drawCard() {
 
   const drawBtn = document.getElementById("draw-btn");
   const current = document.getElementById("current-card");
-  const next = document.getElementById("next-card");
 
   drawBtn.disabled = true;
 
   current.classList.remove("joker-glow");
-  next.classList.remove("joker-glow");
 
   const currentFront = current.querySelector(".card-face.front img");
-  const nextFront = next.querySelector(".card-face.front img");
 
-  // ★ まず今のカードを確定
+  // ① カード確定
   const drawnCard = deck.pop();
   const isJoker = drawnCard.image.includes("joker");
 
-  // ★ current に即セット（飛ぶ前に）
+  // ② すぐ表示内容を変更
   currentFront.src = drawnCard.image;
 
-  if (isJoker) {
-    current.classList.add("joker-glow");
-  }
+  // ③ 1枚目なら普通にめくる
+  if (drawnCount === 0) {
+    current.classList.add("flip");
 
-  addLog(drawnCard.image);
-  updateCount();
+    if (isJoker) current.classList.add("joker-glow");
 
-  drawnCount++;
-
-  // ★ 次のカードを先に仕込む
-  if (deck.length > 0) {
-    const upcoming = deck[deck.length - 1];
-    nextFront.src = upcoming.image;
-    next.classList.remove("flip");
-  }
-
-  // ★ 1枚目だけは飛ばさない
-  if (drawnCount === 1) {
+    addLog(drawnCard.image);
+    updateCount();
+    drawnCount++;
     isDrawing = false;
     return;
   }
 
-  // ★ 2枚目以降は飛ばす
+  // ④ 2枚目以降は飛ばす演出
   current.classList.add("fly-up");
 
   setTimeout(() => {
 
     current.classList.remove("fly-up");
 
+    if (isJoker) current.classList.add("joker-glow");
+
+    addLog(drawnCard.image);
+    updateCount();
+    drawnCount++;
     isDrawing = false;
 
   }, 600);
@@ -376,6 +369,7 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
 
 
 
