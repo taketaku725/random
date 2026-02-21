@@ -315,7 +315,6 @@ function drawCard() {
 
   // ★ current に即セット（飛ぶ前に）
   currentFront.src = drawnCard.image;
-  current.classList.add("flip");
 
   if (isJoker) {
     current.classList.add("joker-glow");
@@ -330,7 +329,7 @@ function drawCard() {
   if (deck.length > 0) {
     const upcoming = deck[deck.length - 1];
     nextFront.src = upcoming.image;
-    next.classList.add("flip");
+    next.classList.remove("flip");
   }
 
   // ★ 1枚目だけは飛ばさない
@@ -377,6 +376,7 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
 
 
 
