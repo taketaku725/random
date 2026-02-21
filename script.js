@@ -309,15 +309,25 @@ function drawCard() {
 
   card.classList.remove("joker-glow");
 
-  // ★ 裏に仕込む
+  // ★ 裏に次のカードを仕込む
   backImg.src = drawnCard.image;
 
-  // ★ ひっくり返す
-  card.classList.toggle("flip");
+  // ★ いったん裏状態に戻す
+  card.classList.remove("flip");
+
+  requestAnimationFrame(() => {
+
+    requestAnimationFrame(() => {
+
+      // ★ 毎回必ず裏→表
+      card.classList.add("flip");
+
+    });
+
+  });
 
   setTimeout(() => {
 
-    // 表として固定
     frontImg.src = drawnCard.image;
     backImg.src = "img/ura.png";
 
@@ -329,13 +339,10 @@ function drawCard() {
     updateCount();
 
     isDrawing = false;
-
-    // ★ ボタン復活
     drawBtn.disabled = (deck.length === 0);
 
   }, 400);
 }
-
 function addLog(src) {
   const logList = document.getElementById("log-list");
   if (!logList) return;
@@ -362,6 +369,7 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
 
 
 
