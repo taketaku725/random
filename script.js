@@ -297,43 +297,39 @@ function drawCard() {
   if (deck.length === 0 || isDrawing) return;
   isDrawing = true;
 
+  const card = document.getElementById("current-card");
+  const frontImg = card.querySelector(".card-face.front img");
+  const backImg = card.querySelector(".card-face.back img");
   const drawBtn = document.getElementById("draw-btn");
-  const current = document.getElementById("current-card");
-  const currentFront = current.querySelector(".card-face.front img");
 
   drawBtn.disabled = true;
 
   const drawnCard = deck.pop();
   const isJoker = drawnCard.image.includes("joker");
 
-  current.classList.remove("joker-glow");
+  // ★ 次のカードを裏面に仕込む
+  backImg.src = drawnCard.image;
 
-  // ★ 一旦裏に戻す
-  current.classList.remove("flip");
+  card.classList.remove("joker-glow");
 
-  requestAnimationFrame(() => {
+  // ★ ひっくり返す
+  card.classList.toggle("flip");
 
-    // ★ 画像差し替え
-    currentFront.src = drawnCard.image;
+  setTimeout(() => {
 
-    requestAnimationFrame(() => {
+    // ★ 回転が終わったら front と back を入れ替える
+    frontImg.src = drawnCard.image;
+    backImg.src = "img/ura.png";
 
-      // ★ めくる
-      current.classList.add("flip");
+    if (isJoker) {
+      card.classList.add("joker-glow");
+    }
 
-      if (isJoker) {
-        current.classList.add("joker-glow");
-      }
+    addLog(drawnCard.image);
+    updateCount();
+    isDrawing = false;
 
-    });
-
-  });
-
-  addLog(drawnCard.image);
-  updateCount();
-  drawnCount++;
-
-  isDrawing = false;
+  }, 400); // CSSの0.4sと合わせる
 }
 
 function updateCount() {
@@ -350,6 +346,7 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
 
 
 
