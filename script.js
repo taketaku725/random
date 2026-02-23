@@ -191,6 +191,7 @@ function initDice20() {
   renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(width, height);
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
 
   container.appendChild(renderer.domElement);
 
@@ -369,6 +370,7 @@ function shuffle(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
 
 
 
